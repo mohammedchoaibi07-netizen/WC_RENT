@@ -11,14 +11,23 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-  });
+async function request<T>(path: string, options: RequestInit = {}, timeoutMs?: number): Promise<T> {
+  const controller = timeoutMs ? new AbortController() : undefined;
+  const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : undefined;
+
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      signal: controller?.signal,
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+    });
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
 
   if (!res.ok) {
     let payload: unknown;
@@ -36,10 +45,33 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 }
 
 export const api = {
-  get: <T>(path: string) => request<T>(path),
+  get: <T>(path: string, timeoutMs?: number) => request<T>(path, {}, timeoutMs),
   post: <T>(path: string, body?: unknown) =>
     request<T>(path, { method: "POST", body: body ? JSON.stringify(body) : undefined }),
 };
+
+export type Province =
+  | "ANVERS"
+  | "BRABANT_FLAMAND"
+  | "BRABANT_WALLON"
+  | "BRUXELLES"
+  | "FLANDRE_ORIENTALE"
+  | "FLANDRE_OCCIDENTALE"
+  | "HAINAUT"
+  | "LIEGE"
+  | "LIMBOURG"
+  | "LUXEMBOURG"
+  | "NAMUR";
+
+export interface ZoneInfo {
+  province: Province;
+  deliveryDelayHours: 24 | 48;
+}
+
+export interface ZoneLookupResult {
+  province: Province | null;
+  deliveryDelayHours: 24 | 48 | null;
+}
 
 export interface AvailabilityResult {
   available: boolean;

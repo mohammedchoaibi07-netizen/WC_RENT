@@ -67,7 +67,7 @@ export function ContactForm() {
             {sent ? (
               <div className="grid gap-2 rounded-2xl bg-blue-050 p-6">
                 <p className="m-0 text-[18px] font-extrabold text-navy-800">Demande envoyée</p>
-                <p className="m-0 text-[15px] leading-[1.5] text-grey-700">
+                <p className="m-0 text-[16px] leading-[1.5] text-grey-700">
                   Merci. Nous revenons vers vous avec une proposition sous 24h ouvrables.
                 </p>
               </div>
@@ -122,7 +122,7 @@ export function ContactForm() {
             <a href={`mailto:${COMPANY.email}`} className="text-[16px] text-grey-700 no-underline">
               {COMPANY.email}
             </a>
-            <p className="m-0 text-[15px] text-grey-500">Lundi au vendredi, 7h30 – 18h. Urgences week-end sur appel.</p>
+            <p className="m-0 text-[16px] text-grey-500">Lundi au vendredi, 7h30 – 18h. Urgences week-end sur appel.</p>
           </Reveal>
         </div>
       </Container>

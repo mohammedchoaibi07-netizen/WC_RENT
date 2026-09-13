@@ -10,7 +10,7 @@ export function ReasonList({ items }: { items: Array<{ title: string; body: stri
           </span>
           <div className="grid gap-1">
             <p className="m-0 text-[16px] font-bold text-white">{item.title}</p>
-            <p className="m-0 text-[15px] leading-[1.5] text-white/80">{item.body}</p>
+            <p className="m-0 text-[16px] leading-[1.5] text-white/80">{item.body}</p>
           </div>
         </div>
       ))}

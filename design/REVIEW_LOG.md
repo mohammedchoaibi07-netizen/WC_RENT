@@ -26,6 +26,28 @@ Verdict        PASS | FIX | ESCALATE
 
 ---
 
+## Carte des provinces — source et méthode de conversion (2026-09-14)
+
+Tracés dans `site/src/lib/provincePaths.ts`, dérivés des jeux de données
+officiels de l'IGN/NGI publiés sur odwb.be : "Limites administratives -
+Provinces Belges" (`provincesprovincies-belgium`, 10 entités) et "...
+Régions Belges" (`regionsgeweste-belgium`, pour isoler Bruxelles-Capitale
+en tant qu'entité séparée — ce n'est pas une province au sens administratif).
+Licence CC BY 4.0, attribution en pied de page (`Footer.tsx`), pas sur la
+carte elle-même — la licence n'impose pas le placement.
+
+Les exports GeoJSON de ces jeux sont déjà en WGS84 (vérifié sur un
+enregistrement réel) — aucune reprojection depuis le Lambert belge n'a été
+nécessaire, donc aucune dépendance de projection cartographique (proj4,
+d3-geo) n'a été ajoutée au projet. Conversion WGS84 → plan SVG faite une
+fois, hors du projet : projection équirectangulaire à la main (`x = (lon -
+min) × cos(latitude moyenne) × échelle`, `y = (max - lat) × échelle`, axe Y
+inversé), puis décimation des points (environ 1 point conservé sur 25-55
+selon la densité d'origine, ~70 points par forme) pour ramener ~24 000
+points sources à 12,3 Ko de données de tracé au total. Seul le résultat
+(`provincePaths.ts`) est commité ; le script de conversion et les GeoJSON
+sources ne le sont pas.
+
 ## Known limitations
 
 Le filtre M-02 (`scripts/check.mjs`) exempte les `<a>` dont `label` n'est pas vide et dont

@@ -204,7 +204,7 @@ export function ReservationWizard() {
           <SectionHeading eyebrow="Étape 1" title="Combien de cabines ?" level="h1" intro="Prix indiqué hors TVA, par cabine et par semaine." />
           <div className="grid gap-3 rounded-2xl border border-grey-200 p-4">
             <div className="grid gap-1">
-              <span className="text-[17px] font-extrabold tracking-[-0.02em] text-navy-800">Toilette mobile autonome</span>
+              <span className="text-[18px] font-extrabold tracking-[-0.02em] text-navy-800">Toilette mobile autonome</span>
               <span className="text-[14px] text-grey-500">
                 Cabine à fosse, sans raccordement · {formatEur(CABIN_PRICE_PER_WEEK)} / semaine
               </span>
@@ -336,7 +336,7 @@ export function ReservationWizard() {
           {error && <p className="m-0 text-[14px] text-red-600">{error}</p>}
 
           <Button onClick={handlePay} block icon="shield-check" showArrow={false} disabled={!cgvAccepted || !quote || submitting}>
-            {submitting ? "Traitement..." : quote ? `Payer ${formatEur(quote.montantTotal)}` : "Payer"}
+            {submitting ? "Traitement..." : quote ? `Confirmer et payer ${formatEur(quote.montantTotal)}` : "Confirmer et payer"}
           </Button>
           <p className="m-0 text-[14px] leading-[1.5] text-grey-500">
             {clientType === "societe" ? "Société" : "Particulier"} ·{" "}
@@ -392,7 +392,7 @@ function Row({
   className?: string;
 }) {
   return (
-    <div className={`flex items-center justify-between gap-3 text-[15px] text-grey-700 ${className ?? ""}`}>
+    <div className={`flex items-center justify-between gap-3 text-[16px] text-grey-700 ${className ?? ""}`}>
       <span>{label}</span>
       <span
         className={

@@ -77,7 +77,7 @@ export function Header() {
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className={`block rounded-xl px-4 py-3.5 text-[16px] font-bold no-underline ${
+                      className={`block rounded-lg px-4 py-3.5 text-[16px] font-bold no-underline ${
                         active ? "bg-blue-050 text-blue-500" : "text-navy-800 hover:bg-grey-050"
                       }`}
                     >

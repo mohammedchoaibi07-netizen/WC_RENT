@@ -33,7 +33,7 @@ export function ChoiceOption({
         </span>
       )}
       <span className="grid gap-0.5">
-        <span className="text-[15px] font-bold text-navy-800">{label}</span>
+        <span className="text-[16px] font-bold text-navy-800">{label}</span>
         {description && <span className="text-[13px] text-grey-500">{description}</span>}
       </span>
       {selected && <Icon name="check" size={18} className="ml-auto flex-none text-blue-500" />}

@@ -33,7 +33,7 @@ export function FaqAccordion({
             </button>
             {isOpen && (
               <div className="px-5 pb-4 -mt-1">
-                <p className="m-0 text-[15px] leading-[1.5] text-grey-700">{item.a}</p>
+                <p className="m-0 text-[16px] leading-[1.5] text-grey-700">{item.a}</p>
               </div>
             )}
           </div>

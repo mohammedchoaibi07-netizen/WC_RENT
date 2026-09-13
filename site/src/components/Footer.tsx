@@ -20,7 +20,7 @@ export function Footer() {
             <a href={telHref} className="text-[18px] font-bold text-white no-underline">
               {COMPANY.phone}
             </a>
-            <a href={`mailto:${COMPANY.email}`} className="text-[15px] text-white/80 no-underline">
+            <a href={`mailto:${COMPANY.email}`} className="text-[16px] text-white/80 no-underline">
               {COMPANY.email}
             </a>
           </div>
@@ -36,6 +36,13 @@ export function Footer() {
           <p className="m-0 mt-8 text-[12px] text-white/50">
             © {new Date().getFullYear()} WC Rent Belgium. Location, nettoyage et débouchage de sanitaires mobiles en
             Belgique.
+          </p>
+          <p className="m-0 mt-2 text-[12px] text-white/50">
+            Carte des provinces : Institut géographique national (NGI),{" "}
+            <a href="https://creativecommons.org/licenses/by/4.0/" className="text-white/70 underline">
+              CC BY 4.0
+            </a>{" "}
+            — données adaptées.
           </p>
         </Container>
       </footer>

@@ -1,3 +1,5 @@
+import type { Province } from "./api";
+
 export const COMPANY = {
   phone: "+32 470 12 34 56",
   email: "info@wcrentbelgium.be",
@@ -17,8 +19,6 @@ export const stats = [
 
 /** Bande defilante d'infos clef, juste sous le hero. */
 export const tickerItems: Array<{ icon: string; label: string }> = [
-  { icon: "users", label: "+500 projets réalisés" },
-  { icon: "star", label: "4,9/5 clients satisfaits" },
   { icon: "truck", label: "Livraison sous 24h" },
   { icon: "leaf", label: "100% engagement vert" },
   { icon: "shield-check", label: "Partout en Belgique" },
@@ -97,19 +97,39 @@ export const projects = [
   { title: "Rénovation d'école", body: "4 cabines dont une PMR, planning aligné sur les congés scolaires.", place: "Gand", imageLabel: "Photo : cabines devant une école" },
 ];
 
-export const zoneRows = [
-  { name: "Anvers", delay: "24h" },
-  { name: "Brabant flamand", delay: "24h" },
-  { name: "Brabant wallon", delay: "24h" },
-  { name: "Bruxelles-Capitale", delay: "24h" },
-  { name: "Flandre-Occidentale", delay: "48h" },
-  { name: "Flandre-Orientale", delay: "24h" },
-  { name: "Hainaut", delay: "48h" },
-  { name: "Liège", delay: "24h" },
-  { name: "Limbourg", delay: "48h" },
-  { name: "Luxembourg", delay: "48h" },
-  { name: "Namur", delay: "24h" },
-];
+/**
+ * Noms affichés par province — présentation/i18n uniquement (le NL viendra
+ * ici plus tard). Le délai de livraison, lui, ne vit plus qu'au backend
+ * (`GET /api/zones`) : voir ZoneGrid.tsx et ZonePostalLookup.tsx.
+ */
+export const PROVINCE_LABELS: Record<Province, string> = {
+  ANVERS: "Anvers",
+  BRABANT_FLAMAND: "Brabant flamand",
+  BRABANT_WALLON: "Brabant wallon",
+  BRUXELLES: "Bruxelles-Capitale",
+  FLANDRE_OCCIDENTALE: "Flandre-Occidentale",
+  FLANDRE_ORIENTALE: "Flandre-Orientale",
+  HAINAUT: "Hainaut",
+  LIEGE: "Liège",
+  LIMBOURG: "Limbourg",
+  LUXEMBOURG: "Luxembourg",
+  NAMUR: "Namur",
+};
+
+/** Article correct pour « province {du|de la|de} X » en français. */
+export const PROVINCE_ARTICLE: Record<Province, string> = {
+  ANVERS: "d'",
+  BRABANT_FLAMAND: "du ",
+  BRABANT_WALLON: "du ",
+  BRUXELLES: "de ",
+  FLANDRE_OCCIDENTALE: "de ",
+  FLANDRE_ORIENTALE: "de ",
+  HAINAUT: "du ",
+  LIEGE: "de ",
+  LIMBOURG: "de ",
+  LUXEMBOURG: "de ",
+  NAMUR: "de ",
+};
 
 export const faq = [
   { q: "Quel est le délai de livraison ?", a: "Sous 24h dans la plupart des provinces pour toute commande confirmée avant 14h, 48h pour les zones les plus éloignées." },

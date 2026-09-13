@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+/*
+ * Échelle de tailles de texte (2026-09-13, resserrée depuis 11 valeurs
+ * mesurées sur une seule page à 8 valeurs + 2 formules clamp()). Appliquée
+ * en Tailwind via des valeurs arbitraires cohérentes (text-[16px], etc.),
+ * pas via des tokens @theme générés — respecter les noms de rôle ci-dessous
+ * en écrivant du nouveau texte, plutôt que d'introduire une valeur voisine :
+ *
+ *   12px  micro    badges, mentions légales (aussi text-xs)
+ *   13px  caption  eyebrows, légendes, libellés de statut
+ *   14px  ui       boutons, labels de champ, bandeau défilant
+ *   16px  body     corps de texte par défaut, contrôles de saisie
+ *   18px  lead     intros de section, titres de carte, corps mis en avant
+ *   20px  amount   montant total à payer (ReservationWizard) — usage unique
+ *   heading  clamp(28px, 3.4vw, 42px) — tous les titres de section (SectionHeading, CtaPanel)
+ *   hero     clamp(32px, 6vw, 60px)   — uniquement le h1 du hero de la page d'accueil
+ *
+ * 15px et 17px ont été fondus dans 16px et 18px : l'écart d'1px entre deux
+ * usages voisins n'était jamais une décision, juste une dérive au fil des
+ * composants. Idem pour la 3e formule clamp() (CtaPanel), fondue dans celle
+ * de SectionHeading.
+ */
+
 :root {
   /* --- Base palette (WC Rent Belgium design system) --- */
   --navy-900: #04182f;
@@ -30,11 +52,15 @@
 
   --focus-ring: #7fb6f5;
 
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-pill: 999px;
+  /* --radius-sm/md/lg/xl/pill supprimés (2026-09-13) : jamais référencés via
+     var() nulle part dans le code, mais leurs NOMS entraient en collision
+     avec les variables internes de Tailwind v4 (--radius-lg, --radius-xl),
+     qu'ils écrasaient silencieusement (8px/12px par défaut devenaient
+     16px/20px). D'où 4 rayons de bordure différents à l'usage au lieu de 3.
+     L'échelle vit maintenant, intentionnellement, dans @theme inline
+     ci-dessous : rounded-lg = 12px (contrôles : boutons, badges icône,
+     champs de formulaire) / rounded-2xl = 16px (cartes, valeur par défaut
+     Tailwind, non modifiée) / rounded-full = pilules et cercles. */
 
   --header-h: 64px;
   --bar-h: 72px;
@@ -60,6 +86,7 @@
   --color-amber-500: var(--amber-500);
   --color-red-600: var(--red-600);
   --font-sans: var(--font-jakarta);
+  --radius-lg: 12px; /* contrôles : boutons, badges icône, champs de formulaire */
 }
 
 /*

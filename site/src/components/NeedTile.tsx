@@ -20,7 +20,7 @@ export function NeedTile({
       <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-blue-050 text-navy-800 transition-colors duration-200 group-hover:bg-blue-500 group-hover:text-white">
         <Icon name={icon} size={20} />
       </span>
-      <span className="text-[15px] font-bold text-navy-800">{label}</span>
+      <span className="text-[16px] font-bold text-navy-800">{label}</span>
       <span className="text-[13px] text-grey-500">{caption}</span>
     </Link>
   );

@@ -51,7 +51,7 @@ export function SuiviView({ orderRef, token }: { orderRef?: string; token?: stri
       <section className="py-10 lg:py-16">
         <Container size="narrow" className="grid gap-4">
           <SectionHeading eyebrow="Suivi de commande" title="Lien de suivi manquant" level="h1" />
-          <p className="m-0 text-[15px] leading-[1.5] text-grey-700">
+          <p className="m-0 text-[16px] leading-[1.5] text-grey-700">
             Le lien de suivi complet (référence et jeton) vous est envoyé par e-mail dès que votre paiement est
             confirmé.
           </p>
@@ -69,8 +69,8 @@ export function SuiviView({ orderRef, token }: { orderRef?: string; token?: stri
     <section className="py-10 lg:py-16">
       <Container size="narrow" className="grid gap-4">
         <SectionHeading eyebrow="Suivi de commande" title={`Commande ${orderRef}`} level="h1" />
-        {loading && <p className="m-0 text-[15px] text-grey-500">Chargement...</p>}
-        {error && <p className="m-0 text-[15px] text-red-600">{error}</p>}
+        {loading && <p className="m-0 text-[16px] text-grey-500">Chargement...</p>}
+        {error && <p className="m-0 text-[16px] text-red-600">{error}</p>}
         {order && (
           <div className="grid gap-3 rounded-2xl border border-grey-200 p-5">
             <Badge>{STATUS_LABELS[order.status] ?? order.status}</Badge>
@@ -89,7 +89,7 @@ export function SuiviView({ orderRef, token }: { orderRef?: string; token?: stri
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 text-[15px]">
+    <div className="flex items-center justify-between gap-3 text-[16px]">
       <span className="text-grey-500">{label}</span>
       <span className="font-bold text-navy-800">{value}</span>
     </div>

@@ -22,7 +22,7 @@ export function CounterField({
   return (
     <div className="grid gap-1.5">
       {label && <span className="text-[14px] font-bold text-navy-800">{label}</span>}
-      <div className="flex h-14 items-center justify-between rounded-xl border border-grey-200 px-2">
+      <div className="flex h-14 items-center justify-between rounded-lg border border-grey-200 px-2">
         <button
           type="button"
           onClick={() => onChange(Math.max(min, value - step))}

@@ -23,7 +23,7 @@ export function CtaPanel({
       <Container className="grid gap-8 lg:grid-cols-[1.3fr_auto] lg:items-center lg:gap-14">
         <div className="grid gap-4">
           <p className="m-0 text-[13px] font-bold uppercase tracking-[0.12em] text-white/70">{eyebrow}</p>
-          <h2 className="m-0 text-[clamp(30px,3.6vw,44px)] font-extrabold leading-[1.08] tracking-[-0.02em] text-white text-wrap-balance">
+          <h2 className="m-0 text-[clamp(28px,3.4vw,42px)] font-extrabold leading-[1.1] tracking-[-0.02em] text-white text-wrap-balance">
             {title}
           </h2>
           <p className="m-0 max-w-xl text-[18px] leading-[1.5] text-white/85">{intro}</p>

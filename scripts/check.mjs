@@ -75,7 +75,7 @@ if (GATE) {
         const at = `${route}@${vp}`;
         if (a.contrastFails.length) fails.push(`M-01 ${at}: ${a.contrastFails.length} text nodes below contrast target`);
         const m02Targets = a.smallTargets.filter(
-          (t) => M02_TAGS.has(t.tag) || (t.tag === 'a' && (t.label === '' || t.w < 40))
+          (t) => M02_TAGS.has(t.tag) || (t.tag === 'a' && (t.svg || t.label === '' || t.w < 40))
         );
         if (vp === 'mobile' && m02Targets.length) fails.push(`M-02 ${at}: ${m02Targets.length} tap targets under 44px`);
         if (a.overflowX > 1) fails.push(`M-03 ${at}: horizontal overflow ${a.overflowX}px`);

@@ -26,7 +26,7 @@ export function TextField({
         value={value}
         required={required}
         onChange={(e) => onChange(e.target.value)}
-        className="h-14 rounded-xl border border-grey-200 px-4 text-[16px] text-navy-800 outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-[#7FB6F5]"
+        className="h-14 rounded-lg border border-grey-200 px-4 text-[16px] text-navy-800 outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-[#7FB6F5]"
       />
       {hint && <span className="text-[13px] text-grey-500">{hint}</span>}
     </label>

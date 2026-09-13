@@ -29,8 +29,8 @@ export default function RealisationsPage() {
                 <PhotoFrame ratio="3 / 2" label={pj.imageLabel} />
                 <div className="flex items-start justify-between gap-3">
                   <div className="grid gap-1">
-                    <h3 className="m-0 text-[19px] font-extrabold tracking-[-0.02em] text-navy-800">{pj.title}</h3>
-                    <p className="m-0 text-[15px] leading-[1.5] text-grey-700">{pj.body}</p>
+                    <h3 className="m-0 text-[18px] font-extrabold tracking-[-0.02em] text-navy-800">{pj.title}</h3>
+                    <p className="m-0 text-[16px] leading-[1.5] text-grey-700">{pj.body}</p>
                   </div>
                   <span className="flex-none text-xs font-bold uppercase tracking-[0.10em] text-grey-500">{pj.place}</span>
                 </div>

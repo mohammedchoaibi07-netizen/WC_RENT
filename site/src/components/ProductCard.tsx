@@ -33,8 +33,8 @@ export function ProductCard({
         <PhotoFrame ratio="16 / 9" label={imageLabel ?? title} />
       )}
       <div className="grid gap-3 p-5">
-        <h3 className="m-0 text-[19px] font-extrabold tracking-[-0.02em] text-navy-800">{title}</h3>
-        <p className="m-0 text-[15px] leading-[1.5] text-grey-700">{description}</p>
+        <h3 className="m-0 text-[18px] font-extrabold tracking-[-0.02em] text-navy-800">{title}</h3>
+        <p className="m-0 text-[16px] leading-[1.5] text-grey-700">{description}</p>
         <Button href={href} variant="secondary" block showArrow={false}>
           {ctaLabel}
         </Button>

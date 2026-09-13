@@ -63,7 +63,7 @@ export default function HomePage() {
               {/* CTA a droite du titre a partir de md, au-dessus de la ligne de flottaison. */}
               <div className="grid grid-cols-2 gap-3 sm:max-w-md md:flex md:w-56 md:flex-col">
                 <Button href="/reserver" size="sm" block>
-                  Réserver
+                  Voir les prix et réserver
                 </Button>
                 <Button href="/contact" variant="secondary" size="sm" block showArrow={false}>
                   Devis gratuit

@@ -150,7 +150,13 @@ const auditFn = () => {
   const smallTargets = interactive
     .map((el) => {
       const r = el.getBoundingClientRect();
-      return { tag: el.tagName.toLowerCase(), label: (el.textContent || el.getAttribute('aria-label') || '').trim().slice(0, 30), w: round(r.width), h: round(r.height) };
+      return {
+        tag: el.tagName.toLowerCase(),
+        svg: el.namespaceURI === 'http://www.w3.org/2000/svg',
+        label: (el.textContent || el.getAttribute('aria-label') || '').trim().slice(0, 30),
+        w: round(r.width),
+        h: round(r.height),
+      };
     })
     .filter((t) => t.w < 44 || t.h < 44);
 
@@ -196,6 +202,31 @@ const auditFn = () => {
   };
 };
 
+/* ---------- reveal ---------- */
+
+/**
+ * Reveal.tsx starts at opacity-0 and only shows its content once an
+ * IntersectionObserver sees it — but a fullPage screenshot renders the whole
+ * document without ever scrolling the real page, so anything below the first
+ * viewport is captured still hidden. Scroll down in steps to fire every
+ * observer, wait out the 420ms transition, then return to the top so the
+ * -fold shot stays a true top-of-page capture.
+ */
+async function revealPage(page) {
+  const { height, vh } = await page.evaluate(() => ({
+    height: document.documentElement.scrollHeight,
+    vh: window.innerHeight,
+  }));
+  const step = Math.max(1, Math.floor(vh * 0.8));
+  for (let y = 0; y <= height; y += step) {
+    await page.evaluate((yy) => window.scrollTo(0, yy), y);
+    await page.waitForTimeout(140);
+  }
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await page.waitForTimeout(500); // let the last-triggered 420ms transition finish
+  await page.evaluate(() => window.scrollTo(0, 0));
+}
+
 /* ---------- run ---------- */
 
 const slug = (r) => (r === '/' ? 'home' : r.replace(/^\//, '').replace(/\//g, '-'));
@@ -220,6 +251,7 @@ for (const route of ROUTES) {
     const url = new URL(route, BASE).toString();
     await page.goto(url, { waitUntil: 'networkidle', timeout: 45000 });
     await page.waitForTimeout(700); // let entrance animations settle
+    await revealPage(page);
 
     const name = `${slug(route)}-${vp.name}`;
     await page.screenshot({ path: path.join(SHOTS, `${name}.png`), fullPage: true });

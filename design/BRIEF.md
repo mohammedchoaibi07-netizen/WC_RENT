@@ -96,6 +96,10 @@ réflexes génériques. Voir `.cursor/rules/10-design-direction.mdc`.
 ## Déjà refusé par le client
 
 - Un rendu trop sombre.
+- Un simple champ code postal seul sur la page zone d'intervention : le
+  client veut une carte des provinces belges à cet endroit ; un champ sans
+  carte a été écarté comme solution unique (un champ code postal reste
+  possible en complément d'une carte, pas à sa place).
 
 À compléter dès qu'un retour supplémentaire arrive. Chaque refus noté ici
 économise un round de revue.
