@@ -1,0 +1,17 @@
+{
+  "name": "wc-rent",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix site run dev",
+    "check": "node --env-file-if-exists=.env scripts/check.mjs",
+    "gate": "node --env-file-if-exists=.env scripts/check.mjs --gate",
+    "snap": "node --env-file-if-exists=.env scripts/snap.mjs",
+    "assets": "node --env-file-if-exists=.env scripts/gen-assets.mjs",
+    "assets:dry": "node --env-file-if-exists=.env scripts/gen-assets.mjs --dry",
+    "verify": "npm run check && npm run snap && npm run gate"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0",
+    "sharp": "^0.33.5"
+  }
+}

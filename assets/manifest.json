@@ -1,0 +1,25 @@
+{
+  "_rules": [
+    "No generated human faces presented as real people: no client testimonial portraits, no team photos. That is a false-advertising problem and it is visible to visitors.",
+    "Generated images are for decorative heroes, textures, abstract illustrations, section backgrounds and pictograms.",
+    "Real photos or licensed stock for anything that claims to depict this business, its staff or its customers.",
+    "Every entry needs an id, a prompt written for this brief, and a size. The agent fills this file once; the script does the calling."
+  ],
+  "defaults": {
+    "size": "1536x1024",
+    "style": "Describe the shared art direction here so every asset belongs to the same family: medium, lighting, palette, grain, level of abstraction."
+  },
+  "images": [
+    {
+      "id": "hero-texture",
+      "prompt": "Replace with a prompt specific to this brief's subject matter. Name the medium, the lighting, the composition and what must NOT be in frame.",
+      "size": "2048x1024",
+      "quality": 84
+    },
+    {
+      "id": "section-detail-01",
+      "prompt": "Second asset, same family, different framing.",
+      "size": "1024x1024"
+    }
+  ]
+}

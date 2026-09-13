@@ -1,0 +1,56 @@
+:root{
+  /* --- Base palette --- */
+  --navy-900:#04182F;   /* footer / deepest ground */
+  --navy-800:#082B52;   /* WC Navy — primary brand */
+  --navy-700:#0E3A6B;
+  --blue-600:#0057B0;   /* pressed action */
+  --blue-500:#006EDC;   /* Bleu action — CTA, links, icons */
+  --blue-400:#3A8DE8;
+  --blue-100:#D6E8FB;
+  --blue-050:#EAF4FF;   /* Bleu clair — card & section grounds */
+
+  --white:#FFFFFF;
+  --grey-050:#F5F7FA;
+  --grey-100:#EEF1F6;
+  --grey-200:#E5EAF0;   /* borders */
+  --grey-400:#94A3B8;
+  --grey-500:#64748B;   /* secondary text */
+  --grey-700:#334155;
+
+  /* --- Belgian accents: small touches only, never dominant --- */
+  --be-black:#111111;
+  --be-yellow:#FFD100;
+  --be-red:#E4312B;
+
+  /* --- Semantic / support --- */
+  --green-600:#1E8A56;  /* environmental commitment */
+  --green-050:#EEF7F1;
+  --amber-500:#F5A524;  /* rating stars */
+  --red-600:#D0342C;    /* errors */
+
+  /* --- Semantic aliases --- */
+  --text-strong:var(--navy-800);
+  --text-body:var(--grey-700);
+  --text-muted:var(--grey-500);
+  --text-invert:var(--white);
+  --text-link:var(--blue-500);
+
+  --surface-page:var(--white);
+  --surface-alt:var(--grey-050);
+  --surface-card:var(--white);
+  --surface-info:var(--blue-050);
+  --surface-dark:var(--navy-800);
+  --surface-darkest:var(--navy-900);
+  --surface-eco:var(--green-050);
+
+  --border-subtle:var(--grey-200);
+  --border-strong:var(--grey-400);
+  --border-action:var(--blue-500);
+
+  --action-default:var(--blue-500);
+  --action-hover:var(--blue-600);
+  --action-press:#00499A;
+  --action-soft:var(--blue-050);
+
+  --focus-ring:#7FB6F5;
+}

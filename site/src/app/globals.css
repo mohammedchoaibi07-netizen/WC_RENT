@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+:root {
+  /* --- Base palette (WC Rent Belgium design system) --- */
+  --navy-900: #04182f;
+  --navy-800: #082b52;
+  --navy-700: #0e3a6b;
+  --blue-600: #0057b0;
+  --blue-500: #006edc;
+  --blue-400: #3a8de8;
+  --blue-100: #d6e8fb;
+  --blue-050: #eaf4ff;
+
+  --white: #ffffff;
+  --grey-050: #f5f7fa;
+  --grey-100: #eef1f6;
+  --grey-200: #e5eaf0;
+  --grey-400: #94a3b8;
+  /* grey-500 et green-600 resserrés (2026-09-13, ajusté à nouveau le même
+     jour pour green-600/blue-050) pour un contraste texte ≥4.6:1 sur leurs
+     fonds clairs réels (grey-050/100, green-050, blue-050) — ne pas
+     éclaircir sans revérifier .design/audit.json (M-01). */
+  --grey-500: #5d6d84;
+  --grey-700: #334155;
+
+  --green-600: #117d49;
+  --green-050: #eef7f1;
+  --amber-500: #f5a524;
+  --red-600: #d0342c;
+
+  --focus-ring: #7fb6f5;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  --header-h: 64px;
+  --bar-h: 72px;
+}
+
+@theme inline {
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-blue-600: var(--blue-600);
+  --color-blue-500: var(--blue-500);
+  --color-blue-400: var(--blue-400);
+  --color-blue-100: var(--blue-100);
+  --color-blue-050: var(--blue-050);
+  --color-grey-050: var(--grey-050);
+  --color-grey-100: var(--grey-100);
+  --color-grey-200: var(--grey-200);
+  --color-grey-400: var(--grey-400);
+  --color-grey-500: var(--grey-500);
+  --color-grey-700: var(--grey-700);
+  --color-green-600: var(--green-600);
+  --color-green-050: var(--green-050);
+  --color-amber-500: var(--amber-500);
+  --color-red-600: var(--red-600);
+  --font-sans: var(--font-jakarta);
+}
+
+/*
+ * IMPORTANT : ce reset doit rester dans @layer base. Tailwind v4 place ses
+ * utilitaires dans des cascade layers ; une regle hors layer (ex: `a { color }`
+ * a la racine du fichier) gagne TOUJOURS contre une classe utilitaire comme
+ * `text-white`, quelle que soit sa specificite — ce qui rendait le texte des
+ * boutons (des <a>) invisible (couleur de lien bleue sur fond bleu).
+ */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  body {
+    background: var(--white);
+    color: var(--grey-700);
+    font-family: var(--font-jakarta), "Plus Jakarta Sans", Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--blue-500);
+  }
+  a:hover {
+    color: var(--blue-600);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-enter {
+  animation: fade-in-up 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Le contenu est duplique une fois : -50% boucle exactement sans coupure. */
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 26s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-marquee {
+    animation: none !important;
+    width: auto !important;
+    flex-wrap: wrap !important;
+  }
+
+  .marquee-duplicate {
+    display: none !important;
+  }
+
+  .step-enter {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,54 @@
+---
+description: Core working contract. Always applies.
+alwaysApply: true
+---
+
+# Working contract
+
+## The loop is the product
+
+You do not get to declare work finished. Work is finished when `npm run check`
+exits 0 **and** a design review round produced zero BLOCKER items against
+`design/RUBRIC.md`.
+
+Order, every time:
+
+1. Read `design/BRIEF.md`. If it is empty or vague on subject, audience and
+   primary job, stop and ask. Do not invent a brief and proceed.
+2. Write or update `design/PLAN.md` (tokens, type, layout, principles) before
+   touching code. See `10-design-direction.mdc`.
+3. Build.
+4. `npm run check` — types, lint, build. Fix until green.
+5. `npm run snap` — screenshots + DOM audit.
+6. Design review. See `20-design-review.mdc`.
+7. Apply fixes, then back to 4. Max 3 review rounds, then escalate.
+
+## Non-negotiables
+
+- Never write a secret into source. Server-side env vars only. Nothing
+  sensitive behind a `NEXT_PUBLIC_`/`VITE_` prefix.
+- Never claim something works because it should. If you did not run it, say
+  you did not run it.
+- Never mark a task done with a failing or unrun `check`.
+- One concern per commit-sized change. If a fix needs 400 lines across 9 files,
+  stop and propose the plan first.
+- Do not add a dependency to solve something 20 lines of code solves.
+
+## Forbidden self-reporting language
+
+These phrases are banned from your output. They are how a model sounds when it
+has not verified anything:
+
+- "should work now", "should be fine"
+- "I've improved the design"
+- "looks much better"
+- "globally solid", "overall clean"
+- "could be improved", "consider adding"
+
+Replace each with the measurement that backs it, or delete the sentence.
+
+## When you are stuck
+
+Two failed attempts at the same error means your model of the problem is wrong.
+Stop patching. Write down the three hypotheses, pick the cheapest test that
+discriminates between them, run it, report the result. Then fix.

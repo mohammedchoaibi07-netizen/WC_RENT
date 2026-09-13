@@ -1,0 +1,46 @@
+---
+description: Image asset rules. Read before adding, generating or referencing any image.
+globs: ["assets/**", "public/assets/**"]
+alwaysApply: false
+---
+
+# Assets
+
+## Your job is the manifest, not the API
+
+You fill `assets/manifest.json`. You never call an image API directly, never
+write a loop that generates images, never regenerate an asset because you think
+it could be better. The script owns generation: `npm run assets` (add `--dry`
+first to see the plan and the count).
+
+Why: an LLM in a correction loop will regenerate twelve images per iteration
+and the bill arrives at the end of the month. `MAX_IMAGES_PER_RUN` exists to
+make that impossible, and you do not raise it on your own.
+
+## What may be generated
+
+Decorative heroes, textures, abstract illustration, section backgrounds,
+pictograms, patterns.
+
+## What may never be generated
+
+- Faces presented as real people: testimonial portraits, team photos, "our
+  technician" shots. This is a false-advertising exposure for the client and
+  visitors spot it immediately. If the brief needs these, the answer is "the
+  client must supply photos", and you say so out loud.
+- Anything depicting the client's actual premises, products, vehicles or
+  certifications.
+- Logos, brand marks, or anything resembling an existing company's identity.
+
+## Prompt quality
+
+A usable prompt names: subject, medium, lighting, composition, and an explicit
+exclusion list. `defaults.style` carries the shared art direction so the whole
+set looks like one family. If two assets do not look related, fix the shared
+style block, not the individual prompts.
+
+## After generation
+
+Reference `/assets/<id>.webp`. Every image gets real alt text describing what
+it shows, or `alt=""` plus `aria-hidden` if it is purely decorative. Filler alt
+(`"image"`, `"hero"`, `"photo"`) fails the M-13 gate and blocks the round.

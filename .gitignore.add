@@ -1,0 +1,5 @@
+# append to your .gitignore
+.env
+.env.local
+.design/
+.assets-cache/

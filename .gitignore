@@ -1,0 +1,13 @@
+# dependencies (each subproject also has its own .gitignore)
+node_modules/
+
+# secrets — never commit, only .env.example belongs in git
+.env
+.env.local
+
+# design-loop generated evidence (screenshots, audit.json) — regenerate with npm run snap
+.design/
+.assets-cache/
+
+# Claude Code runtime state (session-local, not project content)
+.claude/scheduled_tasks.lock

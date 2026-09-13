@@ -1,0 +1,15 @@
+{
+  "_note": "Merge these into your package.json. devDeps: playwright, sharp.",
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "gate": "node scripts/check.mjs --gate",
+    "snap": "node scripts/snap.mjs",
+    "assets": "node scripts/gen-assets.mjs",
+    "assets:dry": "node scripts/gen-assets.mjs --dry",
+    "verify": "npm run check && npm run snap && npm run gate"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0",
+    "sharp": "^0.33.5"
+  }
+}

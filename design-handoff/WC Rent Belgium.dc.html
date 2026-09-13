@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./ds-base.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+  body { margin:0; background:#F5F7FA; -webkit-font-smoothing:antialiased; }
+  main *, main *::before, main *::after { box-sizing:border-box; }
+  a { color:#006EDC; }
+  a:hover { color:#0057B0; }
+</style>
+</helmet>
+
+<div style="max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 0 0 1px #E5EAF0">
+
+  <header style="position:sticky;top:0;z-index:40;height:64px;box-sizing:border-box;background:#FFFFFF;border-bottom:1px solid #E5EAF0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 20px">
+    <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center">
+      <img src="assets/logo-trim.png" alt="WC Rent Belgium" style="height:38px;width:auto;display:block">
+    </a>
+    <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.IconButton" icon="{{ menuIcon }}" label="Menu" size="{{ 44 }}" on-click="{{ toggleMenu }}" hint-size="44px,44px"></x-import>
+  </header>
+  <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.MobileMenu" open="{{ menuOpen }}" items="{{ menuItems }}" on-select="{{ selectPage }}" on-close="{{ closeMenu }}" hint-size="100%,0px"></x-import>
+
+  <main style="flex:1;padding-bottom:8px">
+
+    <!-- ACCUEIL -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <img src="assets/hero.png" alt="Sanitaires mobiles livrés sur un site événementiel en Belgique" style="display:block;width:100%;height:240px;object-fit:cover">
+      <section style="padding:24px 20px 40px;display:grid;gap:20px">
+        <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:#64748B">Partout en Belgique</p>
+        <h1 style="margin:0;font-size:36px;line-height:1.08;letter-spacing:-0.02em;font-weight:800;color:#082B52;text-wrap:balance">Des sanitaires pour tous vos projets</h1>
+        <p style="margin:0;font-size:18px;line-height:1.45;color:#334155">Location de toilettes mobiles pour chantiers et événements. Nettoyage, entretien et débouchage assurés par nos équipes.</p>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.FeatureRow" items="{{ heroFeatures }}" hint-size="100%,80px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" block="{{ true }}" on-click="{{ goBook }}" hint-size="100%,56px">Réserver</x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" variant="secondary" block="{{ true }}" on-click="{{ goQuote }}" hint-size="100%,56px">Demander un devis gratuit</x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" variant="phone" icon="phone" show-arrow="{{ false }}" block="{{ true }}" href="{{ telHref }}" hint-size="100%,56px">Appeler maintenant</x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.StatStrip" items="{{ stats }}" hint-size="100%,80px"></x-import>
+      </section>
+
+      <section style="padding:56px 20px;display:grid;gap:24px;background:#F5F7FA">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Nos solutions" title="Une cabine sanitaire, entretien compris" intro="Un seul modèle, éprouvé sur chantier comme en événement, livré nettoyé et prêt à l’emploi." link="{{ solutionsLink }}" hint-size="100%,150px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ProductCard" featured="{{ true }}" title="Toilette mobile autonome" description="Cabine à fosse, sans raccordement, pour un jour comme pour plusieurs mois." image="assets/hero.png" cta-label="Réserver" on-click="{{ goBook }}" hint-size="100%,330px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ProductCard" featured="{{ true }}" title="Nettoyage, vidange et débouchage" description="Entretien programmé de nos cabines et interventions sur vos installations existantes." image="assets/service.png" cta-label="Voir le service" on-click="{{ goSolutions }}" hint-size="100%,330px"></x-import>
+      </section>
+
+      <section style="padding:56px 20px;display:grid;gap:20px">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Pour qui" title="Nous équipons vos sites et vos événements" hint-size="100%,90px"></x-import>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <sc-for list="{{ needs }}" as="n" hint-placeholder-count="6">
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.NeedTile" icon="{{ n.icon }}" label="{{ n.label }}" caption="{{ n.caption }}" on-click="{{ goQuote }}" hint-size="100%,120px"></x-import>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="padding:56px 20px;display:grid;gap:24px;background:#082B52">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Pourquoi WC Rent ?" title="Un service tenu, du devis au dernier enlèvement" on-dark="{{ true }}" hint-size="100%,110px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ReasonList" items="{{ reasons }}" hint-size="100%,320px"></x-import>
+      </section>
+
+      <sc-if value="{{ showTestimonial }}" hint-placeholder-val="{{ true }}">
+        <section style="padding:56px 20px;display:grid;gap:20px;background:#F5F7FA">
+          <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Avis clients" title="Ce que disent nos clients" hint-size="100%,90px"></x-import>
+          <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="2">
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TestimonialCard" quote="{{ t.quote }}" author="{{ t.author }}" meta="{{ t.meta }}" rating="{{ t.rating }}" hint-size="100%,200px"></x-import>
+          </sc-for>
+        </section>
+      </sc-if>
+
+      <section style="padding:56px 20px;display:grid;gap:24px">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Comment ça marche ?" title="Quatre étapes, sans surprise" hint-size="100%,90px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ProcessSteps" steps="{{ processSteps }}" hint-size="100%,150px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.EcoNote" body="Vidanges traitées en filière agréée et produits d’entretien biodégradables sur l’ensemble de notre parc." link-label="Notre engagement" on-link="{{ goAbout }}" hint-size="100%,150px"></x-import>
+      </section>
+
+      <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.CtaPanel" tone="{{ ctaTone }}" eyebrow="Un projet ? Un devis ?" title="Obtenez votre devis gratuit en moins de 24h" intro="Décrivez votre chantier ou votre événement : nous proposons le matériel et la fréquence d’entretien adaptés." assurances="{{ assurances }}" on-cta="{{ goQuote }}" hint-size="100%,300px"></x-import>
+    </sc-if>
+
+    <!-- SOLUTIONS -->
+    <sc-if value="{{ isSolutions }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:28px 20px 40px;display:grid;gap:20px">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Nos solutions" title="Location, entretien et débouchage" intro="Un seul modèle de cabine et un seul interlocuteur pour le matériel, le nettoyage et les interventions." hint-size="100%,150px"></x-import>
+        <sc-for list="{{ products }}" as="p" hint-placeholder-count="3">
+          <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ProductCard" featured="{{ true }}" title="{{ p.title }}" description="{{ p.description }}" image="{{ p.image }}" image-label="{{ p.imageLabel }}" cta-label="{{ p.cta }}" on-click="{{ p.action }}" hint-size="100%,330px"></x-import>
+        </sc-for>
+      </section>
+      <section style="padding:56px 20px;display:grid;gap:24px;background:#082B52">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Services d’entretien" title="Nettoyage, vidange, débouchage" on-dark="{{ true }}" hint-size="100%,110px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ReasonList" items="{{ maintenance }}" hint-size="100%,320px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" variant="onDark" block="{{ true }}" on-click="{{ goQuote }}" hint-size="100%,56px">Demander un devis gratuit</x-import>
+      </section>
+    </sc-if>
+
+    <!-- REALISATIONS -->
+    <sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:28px 20px 48px;display:grid;gap:24px">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Réalisations" title="Chantiers et événements équipés" intro="Quelques installations récentes, du chantier de logements au festival de plusieurs jours." hint-size="100%,150px"></x-import>
+        <sc-for list="{{ projects }}" as="pj" hint-placeholder-count="4">
+          <article style="display:grid;gap:12px">
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.PhotoFrame" ratio="3 / 2" label="{{ pj.imageLabel }}" hint-size="100%,240px"></x-import>
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <div style="display:grid;gap:4px">
+                <h3 style="margin:0;font-size:19px;font-weight:800;letter-spacing:-0.02em;color:#082B52">{{ pj.title }}</h3>
+                <p style="margin:0;font-size:15px;line-height:1.5;color:#334155">{{ pj.body }}</p>
+              </div>
+              <span style="flex:none;font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:#64748B">{{ pj.place }}</span>
+            </div>
+          </article>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <!-- A PROPOS -->
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:28px 20px 48px;display:grid;gap:20px">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="À propos" title="Une équipe belge, un parc entretenu" hint-size="100%,90px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.PhotoFrame" ratio="3 / 2" label="Photo : équipe et camion de service" hint-size="100%,240px"></x-import>
+        <p style="margin:0;font-size:17px;line-height:1.55;color:#334155">WC Rent Belgium loue des sanitaires mobiles partout en Belgique et assure leur entretien. Nous livrons, plaçons, nettoyons selon la fréquence convenue et intervenons en cas de bouchon ou de panne.</p>
+        <p style="margin:0;font-size:17px;line-height:1.55;color:#334155">Chaque unité est contrôlée au retour : châssis, ventilation, pompe et désinfection complète. Nos techniciens couvrent les dix provinces avec des véhicules équipés pour la vidange et le débouchage.</p>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.StatStrip" items="{{ stats }}" hint-size="100%,80px"></x-import>
+      </section>
+      <section style="padding:56px 20px;display:grid;gap:24px;background:#082B52">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Nos engagements" title="Ce sur quoi vous pouvez compter" on-dark="{{ true }}" hint-size="100%,110px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ReasonList" items="{{ reasons }}" hint-size="100%,320px"></x-import>
+      </section>
+    </sc-if>
+
+    <!-- ZONE -->
+    <sc-if value="{{ isZone }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:28px 20px 48px;display:grid;gap:20px">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Zone d’intervention" title="Livraison dans tout le pays" intro="Délais indicatifs pour une commande confirmée avant 14h." hint-size="100%,150px"></x-import>
+        <div style="border:1px solid #E5EAF0;border-radius:16px;overflow:hidden">
+          <sc-for list="{{ zoneRows }}" as="z" hint-placeholder-count="10">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid #EEF1F6">
+              <span style="font-size:16px;font-weight:600;color:#082B52">{{ z.name }}</span>
+              <span style="font-size:15px;color:#64748B">{{ z.delay }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <p style="margin:0;font-size:15px;line-height:1.5;color:#64748B">Grand-Duché de Luxembourg et zones frontalières sur demande.</p>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" variant="secondary" block="{{ true }}" on-click="{{ goQuote }}" hint-size="100%,56px">Vérifier ma disponibilité</x-import>
+      </section>
+    </sc-if>
+
+    <!-- FAQ -->
+    <sc-if value="{{ isFaq }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:28px 20px 48px;display:grid;gap:20px">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="FAQ" title="Questions fréquentes" hint-size="100%,90px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.FaqAccordion" items="{{ faq }}" default-open="{{ 0 }}" hint-size="100%,420px"></x-import>
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" variant="secondary" block="{{ true }}" icon="message-circle" show-arrow="{{ false }}" on-click="{{ goContact }}" hint-size="100%,56px">Poser une autre question</x-import>
+      </section>
+    </sc-if>
+
+    <!-- CONTACT / DEVIS -->
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:28px 20px 48px;display:grid;gap:20px">
+        <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Devis gratuit" title="Parlez-nous de votre projet" intro="Réponse en moins de 24h ouvrables. Gratuit et sans engagement." hint-size="100%,150px"></x-import>
+
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;gap:8px;padding:20px;border-radius:16px;background:#EAF4FF">
+            <p style="margin:0;font-size:18px;font-weight:800;color:#082B52">Demande envoyée</p>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#334155">Merci. Nous revenons vers vous avec une proposition sous 24h ouvrables.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;gap:16px">
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Nom et prénom" placeholder="Marie Dupont" value="{{ form.name }}" on-change="{{ setName }}" hint-size="100%,80px"></x-import>
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Téléphone" type="tel" placeholder="+32 470 00 00 00" value="{{ form.phone }}" on-change="{{ setPhone }}" hint-size="100%,80px"></x-import>
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="E-mail" type="email" placeholder="marie@entreprise.be" value="{{ form.email }}" on-change="{{ setEmail }}" hint-size="100%,80px"></x-import>
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Code postal du site" placeholder="4000" value="{{ form.zip }}" on-change="{{ setZip }}" hint-size="100%,80px"></x-import>
+            <div style="display:grid;gap:8px">
+              <span style="font-size:14px;font-weight:700;color:#082B52">Type de besoin</span>
+              <div style="display:grid;gap:8px">
+                <sc-for list="{{ needOptions }}" as="o" hint-placeholder-count="4">
+                  <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ChoiceOption" label="{{ o.label }}" icon="{{ o.icon }}" selected="{{ o.selected }}" on-select="{{ o.select }}" hint-size="100%,64px"></x-import>
+                </sc-for>
+              </div>
+            </div>
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Détails (durée, nombre d’unités, dates)" placeholder="2 cabines, 6 semaines, à partir du 15 octobre" value="{{ form.details }}" on-change="{{ setDetails }}" hint-size="100%,80px"></x-import>
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" block="{{ true }}" on-click="{{ submit }}" hint-size="100%,56px">Envoyer ma demande</x-import>
+          </div>
+        </sc-if>
+
+        <div style="display:grid;gap:12px;padding:20px;border:1px solid #E5EAF0;border-radius:16px">
+          <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:#64748B">Nous joindre directement</p>
+          <a href="{{ telHref }}" style="font-size:18px;font-weight:800;text-decoration:none;color:#006EDC">{{ phone }}</a>
+          <a href="{{ mailHref }}" style="font-size:16px;text-decoration:none;color:#334155">{{ email }}</a>
+          <p style="margin:0;font-size:15px;color:#64748B">Lundi au vendredi, 7h30 – 18h. Urgences week-end sur appel.</p>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- RESERVATION EN LIGNE -->
+    <sc-if value="{{ isBook }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:28px 20px 48px;display:grid;gap:24px">
+
+        <sc-if value="{{ inFlow }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;gap:24px">
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.StepProgress" step="{{ bookStep }}" total="{{ 5 }}" label="{{ bookStepLabel }}" hint-size="100%,40px"></x-import>
+
+            <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;gap:16px">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Étape 1" title="Combien de cabines ?" intro="Prix indiqué hors TVA, par cabine et par semaine." hint-size="100%,150px"></x-import>
+                <sc-for list="{{ catalogue }}" as="c" hint-placeholder-count="5">
+                  <div style="display:grid;gap:12px;padding:16px;border:1px solid #E5EAF0;border-radius:16px">
+                    <div style="display:grid;gap:4px">
+                      <span style="font-size:17px;font-weight:800;letter-spacing:-0.02em;color:#082B52">{{ c.title }}</span>
+                      <span style="font-size:14px;color:#64748B">{{ c.note }} · {{ c.priceLabel }}</span>
+                    </div>
+                    <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.CounterField" value="{{ c.qty }}" min="{{ 0 }}" max="{{ 40 }}" step="{{ 1 }}" suffix="unité(s)" on-change="{{ c.onQty }}" hint-size="100%,56px"></x-import>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;gap:16px">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Étape 2" title="Combien de temps ?" intro="Durée de location et fréquence d’entretien souhaitée." hint-size="100%,150px"></x-import>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.CounterField" label="Durée de location" value="{{ weeks }}" min="{{ 1 }}" max="{{ 52 }}" step="{{ 1 }}" suffix="semaine(s)" on-change="{{ setWeeks }}" hint-size="100%,80px"></x-import>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Date de livraison souhaitée" type="date" value="{{ book.start }}" on-change="{{ setStart }}" hint="Modifiable jusqu’à 48h avant." hint-size="100%,90px"></x-import>
+                <sc-for list="{{ visitOptions }}" as="v" hint-placeholder-count="4">
+                  <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ChoiceOption" icon="{{ v.icon }}" label="{{ v.label }}" description="{{ v.description }}" selected="{{ v.selected }}" on-select="{{ v.select }}" hint-size="100%,72px"></x-import>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;gap:16px">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Étape 3" title="Où livrons-nous ?" hint-size="100%,90px"></x-import>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Code postal" placeholder="4000" value="{{ book.zip }}" on-change="{{ setZip }}" hint-size="100%,80px"></x-import>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Adresse du site" placeholder="Rue de la Station 12, Liège" value="{{ book.address }}" on-change="{{ setAddress }}" hint="Accès camion requis à moins de 15 m de l’emplacement." hint-size="100%,90px"></x-import>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Badge" icon="truck" hint-size="auto,28px">Livraison et enlèvement : {{ deliveryLabel }}</x-import>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;gap:16px">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Étape 4" title="Vos coordonnées" intro="Le tarif dépend de votre statut." hint-size="100%,120px"></x-import>
+                <sc-for list="{{ clientOptions }}" as="co" hint-placeholder-count="2">
+                  <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ChoiceOption" icon="{{ co.icon }}" label="{{ co.label }}" description="{{ co.description }}" selected="{{ co.selected }}" on-select="{{ co.select }}" hint-size="100%,72px"></x-import>
+                </sc-for>
+                <sc-if value="{{ isCompany }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:grid;gap:16px">
+                    <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Société" placeholder="Entreprise SPRL" value="{{ book.company }}" on-change="{{ setCompany }}" hint-size="100%,80px"></x-import>
+                    <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Numéro de TVA" placeholder="BE 0123.456.789" value="{{ book.vat }}" on-change="{{ setVat }}" hint="Nécessaire pour la facture." hint-size="100%,90px"></x-import>
+                  </div>
+                </sc-if>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Nom et prénom" placeholder="Marie Dupont" value="{{ book.name }}" on-change="{{ setBookName }}" hint-size="100%,80px"></x-import>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="E-mail" type="email" placeholder="marie@entreprise.be" value="{{ book.email }}" on-change="{{ setBookEmail }}" hint-size="100%,80px"></x-import>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.TextField" label="Téléphone" type="tel" placeholder="+32 470 00 00 00" value="{{ book.phone }}" on-change="{{ setBookPhone }}" hint-size="100%,80px"></x-import>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;gap:16px">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SectionHeading" eyebrow="Étape 5" title="Récapitulatif et paiement" hint-size="100%,90px"></x-import>
+                <div style="display:grid;gap:10px;padding:20px;border-radius:16px;background:#EAF4FF">
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#334155">
+                    <span>Durée</span><span style="font-weight:700;color:#082B52">{{ durationLabel }}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#334155">
+                    <span>Livraison</span><span style="font-weight:700;color:#082B52">{{ startLabel }} · {{ placeLabel }}</span>
+                  </div>
+                  <sc-for list="{{ summaryItems }}" as="it" hint-placeholder-count="2">
+                    <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#334155">
+                      <span>{{ it.label }}</span><span>{{ it.value }}</span>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ hasDiscount }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#1E8A56">
+                      <span>Tarif société (10%)</span><span>{{ discountLabel }}</span>
+                    </div>
+                  </sc-if>
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#334155">
+                    <span>Entretien · {{ serviceLabel }}</span><span>{{ serviceTotal }}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#334155">
+                    <span>Livraison et enlèvement</span><span>{{ deliveryLabel }}</span>
+                  </div>
+                  <div style="height:1px;background:rgba(8,43,82,0.12)"></div>
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#64748B">
+                    <span>Total hors TVA</span><span>{{ htLabel }}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#64748B">
+                    <span>TVA 21%</span><span>{{ vatLabel }}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:20px;font-weight:800;color:#082B52">
+                    <span>Total à payer</span><span>{{ totalLabel }}</span>
+                  </div>
+                </div>
+                <sc-for list="{{ methods }}" as="m" hint-placeholder-count="3">
+                  <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.ChoiceOption" icon="{{ m.icon }}" label="{{ m.label }}" description="{{ m.description }}" selected="{{ m.selected }}" on-select="{{ m.select }}" hint-size="100%,72px"></x-import>
+                </sc-for>
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" block="{{ true }}" icon="shield-check" show-arrow="{{ false }}" on-click="{{ pay }}" hint-size="100%,56px">{{ payLabel }}</x-import>
+                <p style="margin:0;font-size:14px;line-height:1.5;color:#64748B">{{ clientLabel }} · {{ vatNote }} Paiement sécurisé, annulation sans frais jusqu’à 48h avant la livraison.</p>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;gap:12px">
+              <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" variant="secondary" icon="chevron-left" show-arrow="{{ false }}" on-click="{{ bookBack }}" hint-size="auto,56px">Retour</x-import>
+              </sc-if>
+              <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+                <span></span>
+              </sc-if>
+              <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" block="{{ true }}" disabled="{{ noUnits }}" on-click="{{ bookNext }}" hint-size="100%,56px">Continuer</x-import>
+              </sc-if>
+              <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" block="{{ true }}" on-click="{{ bookNext }}" hint-size="100%,56px">Continuer</x-import>
+              </sc-if>
+              <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" block="{{ true }}" on-click="{{ bookNext }}" hint-size="100%,56px">Continuer</x-import>
+              </sc-if>
+              <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+                <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" block="{{ true }}" on-click="{{ bookNext }}" hint-size="100%,56px">Vers le paiement</x-import>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ paid }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;gap:16px;justify-items:start">
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Badge" tone="eco" icon="check" hint-size="auto,28px">Paiement confirmé</x-import>
+            <h1 style="margin:0;font-size:30px;line-height:1.1;letter-spacing:-0.02em;font-weight:800;color:#082B52">Votre réservation est enregistrée</h1>
+            <p style="margin:0;font-size:17px;line-height:1.55;color:#334155">Référence {{ bookRef }} · {{ durationLabel }} · {{ deliverySentence }}. Vous recevez la confirmation et la facture par e-mail.</p>
+            <div style="display:grid;gap:8px;width:100%;box-sizing:border-box;padding:20px;border:1px solid #E5EAF0;border-radius:16px">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#334155">
+                <span>Montant payé</span><span style="font-weight:800;color:#082B52">{{ totalLabel }}</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#334155">
+                <span>Moyen de paiement</span><span>{{ book.method }}</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;color:#334155">
+                <span>Entretien</span><span>{{ serviceLabel }}</span>
+              </div>
+            </div>
+            <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.Button" variant="secondary" block="{{ true }}" show-arrow="{{ false }}" on-click="{{ restart }}" hint-size="100%,56px">Faire une autre réservation</x-import>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+
+    <div style="padding:32px 20px;background:#FFFFFF;border-top:1px solid #E5EAF0;display:flex;justify-content:center">
+      <img src="assets/logo-trim.png" alt="WC Rent Belgium" style="width:100%;max-width:240px;height:auto;display:block">
+    </div>
+
+    <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.SiteFooter" phone="{{ phone }}" email="{{ email }}" links="{{ menuItems }}" hint-size="100%,420px"></x-import>
+  </main>
+
+  <x-import component-from-global-scope="WCRentBelgiumDesignSystem_28e66c.StickyActionBar" on-call="{{ call }}" contact-label="Réserver" on-contact="{{ goBook }}" on-quote="{{ goQuote }}" hint-size="100%,72px"></x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;phone&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;+32 470 12 34 56&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Coordonnées&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;info@wcrentbelgium.be&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Coordonnées&quot;},&quot;ctaTone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;blue&quot;,&quot;navy&quot;],&quot;default&quot;:&quot;blue&quot;,&quot;tsType&quot;:&quot;'blue' | 'navy'&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;showTestimonials&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenu&quot;}}">
+class Component extends DCLogic {
+  state = {
+    page: 'Accueil',
+    menuOpen: false,
+    sent: false,
+    need: 'Chantier',
+    form: { name: '', phone: '', email: '', zip: '', details: '' },
+    booking: {
+      step: 1, weeks: 4, visits: 1, start: '', zip: '', address: '',
+      name: '', email: '', phone: '', method: 'Bancontact', paid: false,
+      client: 'Particulier', company: '', vat: '',
+      qty: { standard: 1 }
+    }
+  };
+
+  CATALOG = [
+    { id: 'standard', title: 'Toilette mobile autonome', note: 'Cabine à fosse, sans raccordement', price: 35 }
+  ];
+  DELIVERY = 75;
+  VISIT = 25;
+  BOOK_STEPS = ['Matériel', 'Durée', 'Livraison', 'Coordonnées', 'Paiement'];
+
+  go = (page) => this.setState({ page, menuOpen: false, sent: false });
+  setField = (k) => (v) => this.setState(s => ({ form: { ...s.form, [k]: v } }));
+  setBook = (k) => (v) => this.setState(s => ({ booking: { ...s.booking, [k]: v } }));
+  setQty = (id) => (v) => this.setState(s => ({ booking: { ...s.booking, qty: { ...s.booking.qty, [id]: Math.max(0, v) } } }));
+
+  euro = (n) => n.toLocaleString('fr-BE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
+  quote() {
+    const b = this.state.booking;
+    const units = this.CATALOG.reduce((t, c) => t + (b.qty[c.id] || 0), 0);
+    const visits = b.weeks === 1 ? Math.min(1, b.visits) : b.visits;
+    const gross = this.CATALOG.reduce((t, c) => t + (b.qty[c.id] || 0) * c.price, 0) * b.weeks;
+    const pro = b.client === 'Société';
+    const discount = pro ? gross * 0.1 : 0;
+    const rental = gross - discount;
+    const service = units * visits * (b.weeks === 1 ? 1 : b.weeks) * this.VISIT;
+    const ht = rental + service + this.DELIVERY;
+    const vat = ht * 0.21;
+    return { units, visits, gross, discount, pro, rental, service, ht, vat, total: ht + vat };
+  }
+
+  renderVals() {
+    const phone = this.props.phone ?? '+32 470 12 34 56';
+    const email = this.props.email ?? 'info@wcrentbelgium.be';
+    const p = this.state.page;
+    const menuItems = ['Accueil', 'Réserver en ligne', 'Nos solutions', 'Réalisations', 'À propos', 'Zone d’intervention', 'FAQ', 'Contact'];
+    const b = this.state.booking;
+    const q = this.quote();
+    const catalogue = this.CATALOG.map(c => ({
+      ...c,
+      qty: b.qty[c.id] || 0,
+      priceLabel: this.euro(c.price) + ' / semaine',
+      onQty: this.setQty(c.id)
+    }));
+    const shortStay = b.weeks === 1;
+    const visitOptions = (shortStay ? [
+      { n: 0, label: 'Aucun entretien', description: 'La cabine est livrée nettoyée et désinfectée' },
+      { n: 1, label: '1 passage en cours de location', description: 'Vidange et désinfection à mi-parcours' }
+    ] : [
+      { n: 0, label: 'Aucun entretien', description: 'Vous gérez le nettoyage' },
+      { n: 1, label: '1 passage par semaine', description: 'Chantiers, usage courant' },
+      { n: 2, label: '2 passages par semaine', description: 'Forte fréquentation' },
+      { n: 5, label: '5 passages par semaine', description: 'Événements, festivals' }
+    ]).map(o => ({ ...o, icon: 'sparkles', selected: q.visits === o.n, select: () => this.setBook('visits')(o.n) }));
+    const clientOptions = [
+      { id: 'Particulier', label: 'Particulier', description: 'TVA de 21% incluse dans le total', icon: 'heart' },
+      { id: 'Société', label: 'Société', description: 'Tarif professionnel : 10% sur la location, TVA récupérable', icon: 'landmark' }
+    ].map(o => ({ ...o, selected: b.client === o.id, select: () => this.setBook('client')(o.id) }));
+    const methods = [
+      { id: 'Bancontact', label: 'Bancontact', description: 'Paiement immédiat', icon: 'credit-card' },
+      { id: 'Carte bancaire', label: 'Carte bancaire', description: 'Visa, Mastercard', icon: 'credit-card' },
+      { id: 'Virement', label: 'Virement', description: 'Livraison après réception', icon: 'landmark' }
+    ].map(m => ({ ...m, selected: b.method === m.id, select: () => this.setBook('method')(m.id) }));
+    const summaryItems = catalogue.filter(c => c.qty > 0).map(c => ({
+      label: c.qty + ' × ' + c.title,
+      value: this.euro(c.qty * c.price * b.weeks)
+    }));
+    const needOptions = ['Chantier', 'Événement', 'Industrie', 'Particulier'].map(label => ({
+      label,
+      icon: { 'Chantier': 'hard-hat', 'Événement': 'calendar-days', 'Industrie': 'factory', 'Particulier': 'heart' }[label],
+      selected: this.state.need === label,
+      select: () => this.setState({ need: label })
+    }));
+
+    return {
+      phone, email,
+      telHref: 'tel:' + phone.replace(/\s/g, ''),
+      mailHref: 'mailto:' + email,
+      menuOpen: this.state.menuOpen,
+      menuItems,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      menuIcon: this.state.menuOpen ? 'x' : 'menu',
+      goHome: (e) => { if (e) e.preventDefault(); this.go('Accueil'); },
+      selectPage: (label) => this.go(label),
+      goQuote: () => this.go('Contact'),
+      goContact: () => this.go('Contact'),
+      goSolutions: () => this.go('Nos solutions'),
+      goBook: () => this.go('Réserver en ligne'),
+      isBook: p === 'Réserver en ligne',
+      book: b,
+      bookStep: b.step,
+      bookStepLabel: this.BOOK_STEPS[b.step - 1],
+      isStep1: b.step === 1 && !b.paid,
+      isStep2: b.step === 2 && !b.paid,
+      isStep3: b.step === 3 && !b.paid,
+      isStep4: b.step === 4 && !b.paid,
+      isStep5: b.step === 5 && !b.paid,
+      inFlow: !b.paid,
+      paid: b.paid,
+      showBack: b.step > 1 && !b.paid,
+      nextLabel: b.step === 4 ? 'Vers le paiement' : 'Continuer',
+      bookNext: () => this.setState(s => ({ booking: { ...s.booking, step: Math.min(5, s.booking.step + 1) } })),
+      bookBack: () => this.setState(s => ({ booking: { ...s.booking, step: Math.max(1, s.booking.step - 1) } })),
+      pay: () => this.setState(s => ({ booking: { ...s.booking, paid: true } })),
+      restart: () => this.setState(s => ({ booking: { ...s.booking, step: 1, paid: false } })),
+      catalogue, visitOptions, methods, summaryItems, clientOptions,
+      isCompany: b.client === 'Société',
+      hasDiscount: q.discount > 0,
+      discountLabel: '– ' + this.euro(q.discount),
+      clientLabel: b.client,
+      setCompany: this.setBook('company'),
+      setVat: this.setBook('vat'),
+      vatNote: q.pro ? 'TVA récupérable sur facture.' : 'TVA de 21% incluse dans le total.',
+      weeks: b.weeks,
+      setWeeks: this.setBook('weeks'),
+      setStart: this.setBook('start'),
+      setZip: this.setBook('zip'),
+      setAddress: this.setBook('address'),
+      setBookName: this.setBook('name'),
+      setBookEmail: this.setBook('email'),
+      setBookPhone: this.setBook('phone'),
+      unitCount: q.units,
+      noUnits: q.units === 0,
+      hasUnits: q.units > 0,
+      durationLabel: b.weeks + (b.weeks > 1 ? ' semaines' : ' semaine'),
+      serviceLabel: q.visits === 0 ? 'Sans entretien' : (b.weeks === 1 ? '1 passage' : q.visits + ' passage(s) / semaine'),
+      deliveryLabel: this.euro(this.DELIVERY),
+      serviceTotal: this.euro(q.service),
+      htLabel: this.euro(q.ht),
+      vatLabel: this.euro(q.vat),
+      totalLabel: this.euro(q.total),
+      payLabel: 'Payer ' + this.euro(q.total),
+      bookRef: 'WCR-' + String(1000 + Math.min(999, q.units * 7 + b.weeks)),
+      startLabel: b.start || 'à définir',
+      placeLabel: b.zip ? b.zip : 'Belgique',
+      deliverySentence: b.start && b.zip ? 'livraison le ' + b.start + ' à ' + b.zip
+        : b.zip ? 'livraison à ' + b.zip
+        : b.start ? 'livraison le ' + b.start
+        : 'date et lieu de livraison à confirmer',
+      goAbout: () => this.go('À propos'),
+      call: () => { window.location.href = 'tel:' + phone.replace(/\s/g, ''); },
+
+      isHome: p === 'Accueil',
+      isSolutions: p === 'Nos solutions',
+      isWork: p === 'Réalisations',
+      isAbout: p === 'À propos',
+      isZone: p === 'Zone d’intervention',
+      isFaq: p === 'FAQ',
+      isContact: p === 'Contact',
+
+      ctaTone: this.props.ctaTone ?? 'blue',
+      showTestimonial: this.props.showTestimonials ?? true,
+
+      heroFeatures: [
+        { icon: 'leaf', label: 'Livrés nettoyés' },
+        { icon: 'truck', label: 'Livraison rapide' },
+        { icon: 'shield-check', label: 'Partout en Belgique' }
+      ],
+      stats: [
+        { icon: 'users', value: '+500', label: 'projets réalisés' },
+        { icon: 'star', value: '4,9/5', label: 'clients satisfaits' },
+        { icon: 'leaf', value: '100%', label: 'engagement vert', tone: 'eco' }
+      ],
+      solutionsLink: { label: 'Voir toutes nos solutions', href: '#' },
+      assurances: [
+        { icon: 'clock', label: 'Rapide' },
+        { icon: 'file-text', label: 'Gratuit' },
+        { icon: 'shield-check', label: 'Sans engagement' }
+      ],
+      products: [
+        { title: 'Toilette mobile autonome', description: 'Cabine à fosse, sans raccordement à l’eau ni à l’électricité. Livrée nettoyée et réapprovisionnée, pour un jour comme pour plusieurs mois.', image: 'assets/hero.png', cta: 'Réserver', action: () => this.go('Réserver en ligne') },
+        { title: 'Nettoyage et entretien', description: 'Passage programmé selon la fréquence convenue : vidange, désinfection et réapprovisionnement en papier et savon.', image: 'assets/service.png', cta: 'Demander un devis', action: () => this.go('Contact') },
+        { title: 'Débouchage et vidange', description: 'Intervention sur bouchon, pompe ou fosse pleine, y compris sur des installations que vous n’avez pas louées chez nous.', imageLabel: 'Photo : camion de vidange en intervention', cta: 'Demander un devis', action: () => this.go('Contact') }
+      ],
+      needs: [
+        { icon: 'hard-hat', label: 'Chantiers', caption: 'Location longue durée' },
+        { icon: 'calendar-days', label: 'Événements', caption: 'Festivals, marchés' },
+        { icon: 'heart', label: 'Mariages', caption: 'Réceptions privées' },
+        { icon: 'medal', label: 'Sport', caption: 'Courses et tournois' },
+        { icon: 'factory', label: 'Industrie', caption: 'Sites temporaires' },
+        { icon: 'landmark', label: 'Public', caption: 'Communes et écoles' }
+      ],
+      reasons: [
+        { title: 'Livré nettoyé', body: 'Chaque unité part désinfectée, réapprovisionnée et contrôlée.' },
+        { title: 'Entretien tenu', body: 'Fréquence de passage fixée au contrat et respectée, sans relance de votre part.' },
+        { title: 'Débouchage inclus', body: 'Intervention sur bouchon ou panne dans les délais convenus.' },
+        { title: 'Un seul interlocuteur', body: 'Devis, livraison, entretien et enlèvement gérés par la même équipe.' }
+      ],
+      maintenance: [
+        { title: 'Nettoyage programmé', body: 'Hebdomadaire, bimensuel ou sur mesure selon la fréquentation du site.' },
+        { title: 'Vidange', body: 'Pompage et traitement des effluents en filière agréée.' },
+        { title: 'Débouchage', body: 'Intervention curative sur canalisation, pompe ou fosse.' },
+        { title: 'Contrôle technique', body: 'Vérification ventilation, verrous et éclairage à chaque passage.' }
+      ],
+      testimonials: [
+        { quote: 'Service impeccable, livraison rapide et matériel très propre.', author: 'Thomas L.', meta: 'organisateur d’événements', rating: 5 },
+        { quote: 'Entretien fait chaque semaine sans qu’on ait à le demander. Sur un chantier de huit mois, ça compte.', author: 'Julien V.', meta: 'conducteur de travaux', rating: 5 }
+      ],
+      processSteps: [
+        { title: 'Votre demande', caption: 'Formulaire ou appel', icon: 'file-text' },
+        { title: 'Devis sous 24h', caption: 'Matériel et fréquence', icon: 'clock' },
+        { title: 'Livraison', caption: 'Placement sur site', icon: 'truck' },
+        { title: 'Entretien', caption: 'Puis enlèvement', icon: 'shield-check' }
+      ],
+      projects: [
+        { title: 'Chantier de 120 logements', body: '6 cabines et 2 lave-mains, entretien hebdomadaire pendant 14 mois.', place: 'Liège', imageLabel: 'Photo : cabines sur chantier de logements' },
+        { title: 'Festival deux jours', body: '40 unités, urinoirs collectifs et équipe sur place en continu.', place: 'Namur', imageLabel: 'Photo : sanitaires en festival' },
+        { title: 'Mariage 150 couverts', body: 'Remorque sanitaire haut de gamme, installation la veille.', place: 'Brabant wallon', imageLabel: 'Photo : remorque sanitaire événement' },
+        { title: 'Rénovation d’école', body: '4 cabines dont une PMR, planning aligné sur les congés scolaires.', place: 'Gand', imageLabel: 'Photo : cabines devant une école' }
+      ],
+      zoneRows: [
+        { name: 'Anvers', delay: '24h' },
+        { name: 'Brabant flamand', delay: '24h' },
+        { name: 'Brabant wallon', delay: '24h' },
+        { name: 'Bruxelles-Capitale', delay: '24h' },
+        { name: 'Flandre-Occidentale', delay: '48h' },
+        { name: 'Flandre-Orientale', delay: '24h' },
+        { name: 'Hainaut', delay: '48h' },
+        { name: 'Liège', delay: '24h' },
+        { name: 'Limbourg', delay: '48h' },
+        { name: 'Luxembourg', delay: '48h' },
+        { name: 'Namur', delay: '24h' }
+      ],
+      faq: [
+        { q: 'Quel est le délai de livraison ?', a: 'Sous 24h dans la plupart des provinces pour toute commande confirmée avant 14h, 48h pour les zones les plus éloignées.' },
+        { q: 'À quelle fréquence les cabines sont-elles nettoyées ?', a: 'La fréquence est fixée au devis selon la fréquentation : d’un passage hebdomadaire sur chantier à plusieurs passages par jour en festival.' },
+        { q: 'Intervenez-vous sur des toilettes que nous n’avons pas louées chez vous ?', a: 'Oui. Nous assurons le nettoyage, la vidange et le débouchage d’installations existantes, y compris fixes.' },
+        { q: 'Faut-il un raccordement à l’eau ou à l’électricité ?', a: 'Non. Nos cabines sont entièrement autonomes : fosse et réservoir intégrés, aucun branchement nécessaire.' },
+        { q: 'Quelle est la durée minimale de location ?', a: 'Une journée pour les événements, une semaine pour les chantiers. Les longues durées bénéficient d’un tarif dégressif.' },
+        { q: 'Que devient le contenu des fosses ?', a: 'Les effluents sont pompés et traités en filière agréée, avec traçabilité disponible sur demande.' }
+      ],
+      needOptions,
+      form: this.state.form,
+      setName: this.setField('name'),
+      setPhone: this.setField('phone'),
+      setEmail: this.setField('email'),
+      setZip: this.setField('zip'),
+      setDetails: this.setField('details'),
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      submit: () => this.setState({ sent: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

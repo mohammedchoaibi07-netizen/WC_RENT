@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: wcr
+      POSTGRES_PASSWORD: wcr
+      POSTGRES_DB: wcr_belgium
+    ports:
+      - '5432:5432'
+    volumes:
+      - wcr_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U wcr -d wcr_belgium']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  wcr_postgres_data:

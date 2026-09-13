@@ -1,0 +1,82 @@
+---
+description: Design review protocol. Invoke for any design critique, review or "is this good" question.
+alwaysApply: false
+---
+
+# Design review protocol
+
+A model reviewing code it just wrote defends it. So this review is built to
+make defence impossible.
+
+## Entry conditions — check these first, refuse otherwise
+
+1. `.design/audit.json` exists and `stale` is `false`. If `stale` is `true`,
+   the screenshots predate the current source. Run `npm run snap` first. A
+   review on stale evidence is worthless and you must refuse to give one.
+2. You have actually **opened the PNG files** in `.design/shots/`. Not the
+   filenames, the images. If you cannot view images in this session, say so
+   and stop. Do not substitute a reading of the source code for looking at
+   the render.
+3. Run this review in a **fresh chat**, with only these inputs:
+   `design/BRIEF.md`, `design/RUBRIC.md`, `design/PLAN.md`,
+   `.design/audit.json`, `.design/shots/*.png`. Do not read the build
+   conversation. Do not read component source until after you have written
+   your findings — source code tells you what was *intended*, and intent is
+   exactly the bias you are trying to remove.
+
+## Output format — exactly this, nothing else
+
+No introduction. No summary of what the page does. No compliments section;
+this document has no place to say what works.
+
+```
+ROUND: n
+EVIDENCE: <list of shot filenames you actually looked at> | audit.json @ <fingerprint>
+
+## Defaults check
+For each of the 5 clusters in 10-design-direction.mdc: PASS or FAIL + one line.
+
+## Measured violations
+For each: RUBRIC-ID | measured value | target | file:line if known | BLOCKER or MINOR
+
+## Judgement calls  (max 5, ranked by impact)
+For each: what is wrong | which shot shows it | why it fails the BRIEF
+(not "why it's ugly") | the specific change | how the next round verifies it
+
+## Remove (exactly 3)
+Three things to delete, with what the page gains. Not three things to add.
+
+## Regressions vs round n-1
+Any audit number that got worse. Each is automatically a BLOCKER.
+
+## VERDICT
+PASS  (zero BLOCKER) | FIX (list IDs) | ESCALATE (round 3 reached)
+```
+
+## Rules that make it bite
+
+- **No number, no issue.** For anything the audit measures (contrast, tap
+  size, radius count, shadow count, font count, line length, off-scale
+  spacing), cite the measured value. "Contrast feels low" is not a finding.
+- **Every judgement call is anchored to the brief**, not to taste. The form is
+  "the brief says X for audience Y, and this element does Z instead". A
+  critique you could paste onto any other site is noise; delete it.
+- **Exactly three removals.** Not two, not "nothing to remove". Models are
+  additive by default and designs almost always improve by subtraction. If
+  you truly believe nothing should go, name the three weakest elements
+  anyway and argue the tradeoff.
+- **Falsifiable fixes only.** Each fix states how round n+1 proves it landed:
+  a number that must move, or a specific thing that must be visible in a
+  named shot.
+- **Greyscale pass.** `.design/shots/*-grey.png` removes color. If the
+  hierarchy collapses there, hierarchy was being carried by color alone.
+  That is a BLOCKER.
+- **Mobile first in the review too.** Start with the 390px shots. Most
+  generated layouts are desktop-shaped and fall apart at 390.
+
+## Hard stop
+
+Three rounds maximum per brief. At round 3, output `ESCALATE` with the two or
+three genuine tradeoffs the human has to decide, each with the option you
+recommend and what it costs. Do not start a fourth round. Endless polishing
+burns tokens and converges on mush.

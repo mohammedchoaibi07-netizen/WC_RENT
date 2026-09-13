@@ -1,0 +1,336 @@
+// Schema Prisma — WC Rent Belgium
+// Voir backend-prompt.md (project/backend-prompt.md) pour les regles metier.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum CustomerType {
+  particulier
+  societe
+}
+
+enum OrderStatus {
+  brouillon
+  en_attente_paiement
+  payee
+  planifiee
+  livree
+  en_cours
+  a_enlever
+  cloturee
+  annulee
+  remboursee
+}
+
+enum PaymentMethod {
+  bancontact
+  carte
+  virement
+}
+
+enum UnitState {
+  disponible
+  en_location
+  maintenance
+  hors_service
+}
+
+enum ServiceVisitStatus {
+  prevu
+  effectue
+  reporte
+}
+
+enum QuoteNeedType {
+  chantier
+  evenement
+  industrie
+  particulier
+}
+
+enum QuoteStatus {
+  nouveau
+  en_cours
+  devis_envoye
+  gagne
+  perdu
+}
+
+enum AdminRole {
+  admin
+  operateur
+}
+
+enum Province {
+  ANVERS
+  BRABANT_FLAMAND
+  BRABANT_WALLON
+  BRUXELLES
+  FLANDRE_ORIENTALE
+  LIEGE
+  NAMUR
+  FLANDRE_OCCIDENTALE
+  HAINAUT
+  LIMBOURG
+  LUXEMBOURG
+}
+
+// ---------------------------------------------------------------------------
+// Clients
+// ---------------------------------------------------------------------------
+
+model Customer {
+  id            String       @id @default(uuid())
+  type          CustomerType
+  nom           String
+  email         String       @unique
+  telephone     String
+  societeNom    String?
+  tvaNumero     String?
+  tvaValide     Boolean?
+  adresseRue    String?
+  adresseCp     String?
+  adresseVille  String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  orders        Order[]
+  quoteRequests QuoteRequest[]
+}
+
+// ---------------------------------------------------------------------------
+// Parc de cabines
+// ---------------------------------------------------------------------------
+
+model Unit {
+  id             String    @id @default(uuid())
+  code           String    @unique
+  etat           UnitState @default(disponible)
+  dernierControle DateTime?
+  notes          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  orderUnits OrderUnit[]
+
+  @@index([etat])
+}
+
+// ---------------------------------------------------------------------------
+// Grille tarifaire (historisee)
+// ---------------------------------------------------------------------------
+
+model PriceList {
+  id                    String    @id @default(uuid())
+  validFrom             DateTime  @default(now())
+  validUntil            DateTime?
+  prixSemaineCabine     Decimal   @db.Decimal(10, 2)
+  prixPassageEntretien  Decimal   @db.Decimal(10, 2)
+  prixLivraisonForfait  Decimal   @db.Decimal(10, 2)
+  remiseSocietePct      Decimal   @db.Decimal(5, 4) // ex: 0.10
+  tvaPct                Decimal   @db.Decimal(5, 4) // ex: 0.21
+  createdAt             DateTime  @default(now())
+  createdBy             String?
+
+  orders Order[]
+
+  @@index([validFrom, validUntil])
+}
+
+// ---------------------------------------------------------------------------
+// Commandes
+// ---------------------------------------------------------------------------
+
+model Order {
+  id                  String        @id @default(uuid())
+  reference           String        @unique // WCR-2026-0001
+  customerId          String
+  customer            Customer      @relation(fields: [customerId], references: [id])
+
+  status              OrderStatus   @default(brouillon)
+
+  dateDebut           DateTime
+  dateFin             DateTime
+  nbCabines           Int
+  passagesParSemaine  Int           @default(0)
+
+  adresseRue          String
+  adresseCp           String
+  adresseVille        String
+  province            Province
+
+  clientType          CustomerType
+  societeRemiseAppliquee Boolean    @default(false)
+
+  montantLocation     Decimal       @db.Decimal(10, 2)
+  montantRemise       Decimal       @db.Decimal(10, 2) @default(0)
+  montantEntretien    Decimal       @db.Decimal(10, 2)
+  montantLivraison    Decimal       @db.Decimal(10, 2)
+  montantHtva         Decimal       @db.Decimal(10, 2)
+  montantTva          Decimal       @db.Decimal(10, 2)
+  montantTotal        Decimal       @db.Decimal(10, 2)
+
+  priceListId         String
+  priceList           PriceList     @relation(fields: [priceListId], references: [id])
+
+  moyenPaiement       PaymentMethod?
+  molliePaymentId     String?
+  trackingTokenHash   String
+
+  cgvVersion          String
+  cgvAccepteesLe      DateTime
+
+  createdAt           DateTime      @default(now())
+  updatedAt            DateTime     @updatedAt
+
+  orderUnits    OrderUnit[]
+  serviceVisits ServiceVisit[]
+  invoice       Invoice?
+  statusEvents  OrderStatusEvent[]
+
+  @@index([status])
+  @@index([dateDebut, dateFin])
+  @@index([province])
+}
+
+model OrderUnit {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  unitId    String
+  unit      Unit    @relation(fields: [unitId], references: [id])
+
+  @@unique([orderId, unitId])
+  @@index([unitId])
+}
+
+model OrderStatusEvent {
+  id        String      @id @default(uuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  from      OrderStatus?
+  to        OrderStatus
+  auteur    String // "system" | "client" | admin user id
+  note      String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId])
+}
+
+// ---------------------------------------------------------------------------
+// Entretiens
+// ---------------------------------------------------------------------------
+
+model ServiceVisit {
+  id           String             @id @default(uuid())
+  orderId      String
+  order        Order              @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  datePlanifiee DateTime
+  statut       ServiceVisitStatus @default(prevu)
+  technicien   String?
+  note         String?
+  photoUrl     String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@index([orderId])
+  @@index([datePlanifiee, statut])
+}
+
+// ---------------------------------------------------------------------------
+// Demandes de devis
+// ---------------------------------------------------------------------------
+
+model QuoteRequest {
+  id          String        @id @default(uuid())
+  customerId  String?
+  customer    Customer?     @relation(fields: [customerId], references: [id])
+
+  nom         String
+  telephone   String
+  email       String
+  codePostal  String
+  typeBesoin  QuoteNeedType
+  details     String?
+  statut      QuoteStatus   @default(nouveau)
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([statut])
+}
+
+// ---------------------------------------------------------------------------
+// Facturation
+// ---------------------------------------------------------------------------
+
+model Invoice {
+  id          String   @id @default(uuid())
+  orderId     String   @unique
+  order       Order    @relation(fields: [orderId], references: [id])
+  numero      String   @unique // sequentiel legal, sans trou, ex: 2026-000123
+  dateEmission DateTime @default(now())
+  pdfPath     String?
+  montantTotal Decimal @db.Decimal(10, 2)
+  createdAt   DateTime @default(now())
+
+  @@index([numero])
+}
+
+/// Compteur sequentiel generique (id = "order:2026", "invoice:2026", ...).
+/// Utilise pour les references de commande et la numerotation legale des factures.
+model SequenceCounter {
+  id      String @id
+  dernier Int    @default(0)
+}
+
+// ---------------------------------------------------------------------------
+// Administration
+// ---------------------------------------------------------------------------
+
+model AdminUser {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  nom          String
+  role         AdminRole @default(operateur)
+  actif        Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+
+  sessions  AdminSession[]
+  auditLogs AuditLog[]
+}
+
+model AdminSession {
+  id        String    @id @default(uuid())
+  tokenHash String    @unique
+  adminId   String
+  admin     AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@index([adminId])
+}
+
+model AuditLog {
+  id         String    @id @default(uuid())
+  adminId    String?
+  admin      AdminUser? @relation(fields: [adminId], references: [id])
+  action     String
+  entityType String
+  entityId   String
+  details    Json?
+  createdAt  DateTime  @default(now())
+
+  @@index([entityType, entityId])
+}
