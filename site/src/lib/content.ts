@@ -5,10 +5,38 @@ export const COMPANY = {
   email: "info@wcrentbelgium.be",
 };
 
-export const heroFeatures = [
-  { icon: "leaf", label: "Livrés nettoyés" },
-  { icon: "truck", label: "Livraison rapide" },
-  { icon: "shield-check", label: "Partout en Belgique" },
+/**
+ * Unité du prix vedette du hero — hebdomadaire ou mensuelle : TODO A
+ * CONFIRMER côté client (cf. design/ATTENTE-CLIENT.md). Isolée ici pour
+ * rester un seul point de bascule, pas une chaîne répétée dans le JSX.
+ */
+export const HERO_PRICE_UNIT = "mois";
+
+/** Les trois bénéfices sous le prix vedette du hero. */
+export const heroPriceBenefits = [
+  { icon: "truck", label: "Livraison sous 24h" },
+  { icon: "shield-check", label: "Tout compris, sans surprise" },
+  { icon: "map-pin", label: "Partout en Belgique" },
+];
+
+/** Bande de réassurance sous les CTA du hero. */
+export const heroAssurances = [
+  { icon: "credit-card", label: "Paiement sécurisé par carte" },
+  { icon: "file-text", label: "Facture à 30 jours possible" },
+  { icon: "calendar-days", label: "Annulation flexible jusqu'à 48h avant" },
+];
+
+/**
+ * Bloc confiance de l'accueil — remplace la preuve sociale absente par des
+ * signaux vérifiables (cf. design/BRIEF.md, "Contrainte dominante"). Adresse
+ * et horaires : TODO A CONFIRMER côté client, même statut que
+ * CABIN_PRICE_PER_WEEK plus bas dans ce fichier.
+ */
+export const trustPoints = [
+  { icon: "landmark", label: "Siège en Belgique", detail: "Adresse complète sur facture" },
+  { icon: "file-text", label: "Numéro de TVA", detail: "BE 0000.000.000" },
+  { icon: "shield-check", label: "Assurance RC professionnelle", detail: "Couverte pour tous nos chantiers" },
+  { icon: "phone", label: COMPANY.phone, detail: "Lun-Ven, 8h-18h" },
 ];
 
 export const stats = [

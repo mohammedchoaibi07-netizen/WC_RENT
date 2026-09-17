@@ -6,9 +6,10 @@
     "check": "node --env-file-if-exists=.env scripts/check.mjs",
     "gate": "node --env-file-if-exists=.env scripts/check.mjs --gate",
     "snap": "node --env-file-if-exists=.env scripts/snap.mjs",
+    "preflight": "node scripts/preflight.mjs",
     "assets": "node --env-file-if-exists=.env scripts/gen-assets.mjs",
     "assets:dry": "node --env-file-if-exists=.env scripts/gen-assets.mjs --dry",
-    "verify": "npm run check && npm run snap && npm run gate"
+    "verify": "npm run preflight && npm run check && npm run snap && npm run gate"
   },
   "devDependencies": {
     "playwright": "^1.49.0",
