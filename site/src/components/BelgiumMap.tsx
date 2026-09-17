@@ -3,9 +3,12 @@
 import { useEffect, useState, type KeyboardEvent } from "react";
 import { api, type Province, type ZoneInfo } from "@/lib/api";
 import { PROVINCE_LABELS } from "@/lib/content";
-import { BRUSSELS_CENTROID, PROVINCE_PATHS, PROVINCE_VIEWBOX } from "@/lib/provincePaths";
+import { PROVINCE_PATHS, PROVINCE_VIEWBOX, SMALL_PROVINCE_CENTROIDS } from "@/lib/provincePaths";
 
-const OTHER_PROVINCES = (Object.keys(PROVINCE_PATHS) as Province[]).filter((c) => c !== "BRUXELLES");
+const SMALL_PROVINCES = Object.keys(SMALL_PROVINCE_CENTROIDS) as Province[];
+const NORMAL_PROVINCES = (Object.keys(PROVINCE_PATHS) as Province[]).filter(
+  (c) => !SMALL_PROVINCES.includes(c),
+);
 
 export function BelgiumMap() {
   const [zones, setZones] = useState<Partial<Record<Province, 24 | 48>> | null>(null);
@@ -33,7 +36,6 @@ export function BelgiumMap() {
     return <p className="m-0 text-[16px] text-grey-500">Chargement de la carte...</p>;
   }
 
-  const select = (code: Province) => () => setSelected(code);
   const selectOnKey = (code: Province) => (e: KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -43,6 +45,31 @@ export function BelgiumMap() {
   const fillClass = (code: Province) => (zones[code] === 48 ? "fill-navy-700" : "fill-blue-100");
   const strokeClass = (code: Province) => (selected === code ? "stroke-blue-500 stroke-2" : "stroke-white");
 
+  const region = (code: Province, extraCircle?: { x: number; y: number }) => (
+    <a
+      key={code}
+      href="#"
+      role="button"
+      tabIndex={0}
+      aria-label={`${PROVINCE_LABELS[code]}, livraison sous ${zones[code]}h`}
+      onClick={(e) => {
+        e.preventDefault();
+        setSelected(code);
+      }}
+      onKeyDown={selectOnKey(code)}
+      className="cursor-pointer outline-none"
+    >
+      <path d={PROVINCE_PATHS[code]} className={`${fillClass(code)} ${strokeClass(code)} transition-colors`} strokeWidth={selected === code ? 2 : 0.6} />
+      {/* Zone tactile invisible agrandie : garantit ≥44px de rayon quelle
+          que soit la taille réelle de la forme. Posée en dernier dans le
+          document pour gagner le hit-test sur un chevauchement avec une
+          province voisine plus grande (ex. Bruxelles dans le Brabant
+          flamand) — voir provincePaths.ts pour la liste des provinces
+          concernées, trouvée par mesure M-02 réelle, pas par supposition. */}
+      {extraCircle && <circle cx={extraCircle.x} cy={extraCircle.y} r={45} fill="transparent" pointerEvents="all" />}
+    </a>
+  );
+
   return (
     <div className="grid gap-4">
       <svg
@@ -51,45 +78,8 @@ export function BelgiumMap() {
         role="img"
         aria-label="Carte des provinces belges, coloriée par délai de livraison"
       >
-        {OTHER_PROVINCES.map((code) => (
-          <a
-            key={code}
-            href="#"
-            role="button"
-            tabIndex={0}
-            aria-label={`${PROVINCE_LABELS[code]}, livraison sous ${zones[code]}h`}
-            onClick={(e) => {
-              e.preventDefault();
-              select(code)();
-            }}
-            onKeyDown={selectOnKey(code)}
-            className="cursor-pointer outline-none"
-          >
-            <path d={PROVINCE_PATHS[code]} className={`${fillClass(code)} ${strokeClass(code)} transition-colors`} strokeWidth={selected === code ? 2 : 0.6} />
-          </a>
-        ))}
-        {/* Bruxelles en dernier dans le document : sa zone tactile agrandie
-            (invisible, 45 unités = ~44px rendus à 390px) gagne le hit-test
-            sur le chevauchement avec le Brabant flamand qui l'entoure. */}
-        <a
-          href="#"
-          role="button"
-          tabIndex={0}
-          aria-label={`Bruxelles-Capitale, livraison sous ${zones.BRUXELLES}h`}
-          onClick={(e) => {
-            e.preventDefault();
-            select("BRUXELLES")();
-          }}
-          onKeyDown={selectOnKey("BRUXELLES")}
-          className="cursor-pointer outline-none"
-        >
-          <path
-            d={PROVINCE_PATHS.BRUXELLES}
-            className={`${fillClass("BRUXELLES")} ${strokeClass("BRUXELLES")} transition-colors`}
-            strokeWidth={selected === "BRUXELLES" ? 2 : 0.6}
-          />
-          <circle cx={BRUSSELS_CENTROID.x} cy={BRUSSELS_CENTROID.y} r={45} fill="transparent" pointerEvents="all" />
-        </a>
+        {NORMAL_PROVINCES.map((code) => region(code))}
+        {SMALL_PROVINCES.map((code) => region(code, SMALL_PROVINCE_CENTROIDS[code]))}
       </svg>
 
       <div className="flex flex-wrap items-center gap-4 text-[14px] font-semibold text-navy-800">

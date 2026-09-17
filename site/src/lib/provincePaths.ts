@@ -13,8 +13,19 @@ import type { Province } from "./api";
  */
 export const PROVINCE_VIEWBOX = "0 0 700 571.5";
 
-/** Centroïde de Bruxelles-Capitale, même projection que les tracés ci-dessous. */
-export const BRUSSELS_CENTROID = { x: 331.2, y: 190.4 };
+/**
+ * Provinces dont la forme réelle mesure moins de 44px de haut ou de large à
+ * 390px de large (mesuré par snap.mjs, pas supposé — le Brabant wallon,
+ * plus petit que prévu, a été trouvé après coup via le gate M-02, pas
+ * anticipé au moment du tracé). Chacune reçoit un cercle tactile invisible
+ * de rayon 45 (unités du viewBox), qui garantit ≥44px quelle que soit la
+ * taille réelle de la forme — voir BelgiumMap.tsx. Centroïdes dans la même
+ * projection que les tracés ci-dessus.
+ */
+export const SMALL_PROVINCE_CENTROIDS: Partial<Record<Province, { x: number; y: number }>> = {
+  BRUXELLES: { x: 331.2, y: 190.4 },
+  BRABANT_WALLON: { x: 369.7, y: 237.9 },
+};
 
 export const PROVINCE_PATHS: Record<Province, string> = {
   ANVERS:

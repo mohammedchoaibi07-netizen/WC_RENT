@@ -155,6 +155,32 @@
   animation-play-state: paused;
 }
 
+/*
+ * Effet machine a ecrire sur un titre de section (accent, 2-3 par page).
+ * clip-path plutot qu'une largeur animee + nowrap : ces titres passent sur
+ * plusieurs lignes a la plupart des largeurs de viewport, et un
+ * clip-path ne modifie pas la boite (donc pas de saut de mise en page) —
+ * le titre garde sa taille finale, multilignes comprises, des le premier
+ * rendu ; seul le rendu visuel est masque jusqu'au declenchement.
+ */
+.type-reveal {
+  clip-path: inset(0 100% 0 0);
+}
+
+.is-visible .type-reveal {
+  animation-name: type-reveal-anim;
+  animation-fill-mode: forwards;
+}
+
+@keyframes type-reveal-anim {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -174,5 +200,10 @@
 
   .step-enter {
     animation: none !important;
+  }
+
+  .type-reveal {
+    animation: none !important;
+    clip-path: none !important;
   }
 }

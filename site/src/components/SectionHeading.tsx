@@ -7,6 +7,7 @@ export function SectionHeading({
   onDark,
   link,
   level = "h2",
+  typewriter = false,
 }: {
   eyebrow: string;
   title: string;
@@ -15,8 +16,16 @@ export function SectionHeading({
   link?: { label: string; href: string };
   /** "h1" uniquement pour le premier titre de la page (un seul par page). */
   level?: "h1" | "h2";
+  /**
+   * Effet machine à écrire au premier passage dans le viewport (déclenché
+   * par l'IntersectionObserver de Reveal.tsx, pas un second). À réserver à
+   * 2-3 titres par page — un accent, pas un réflexe systématique.
+   */
+  typewriter?: boolean;
 }) {
   const Title = level;
+  const steps = Math.max(8, Math.min(40, title.length));
+  const durationMs = Math.max(500, Math.min(1600, title.length * 35));
 
   return (
     <div className="grid gap-4 text-left md:flex md:items-end md:justify-between md:gap-8">
@@ -31,7 +40,12 @@ export function SectionHeading({
         <Title
           className={`m-0 font-extrabold tracking-[-0.02em] text-wrap-balance text-[clamp(28px,3.4vw,42px)] leading-[1.1] ${
             onDark ? "text-white" : "text-navy-800"
-          }`}
+          } ${typewriter ? "type-reveal" : ""}`}
+          style={
+            typewriter
+              ? { animationTimingFunction: `steps(${steps}, end)`, animationDuration: `${durationMs}ms` }
+              : undefined
+          }
         >
           {title}
         </Title>
