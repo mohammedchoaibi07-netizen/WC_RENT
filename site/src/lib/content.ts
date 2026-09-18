@@ -33,7 +33,6 @@ export const heroAssurances = [
  * CABIN_PRICE_PER_WEEK plus bas dans ce fichier.
  */
 export const trustPoints = [
-  { icon: "landmark", label: "Siège en Belgique", detail: "Adresse complète sur facture" },
   { icon: "file-text", label: "Numéro de TVA", detail: "BE 0000.000.000" },
   { icon: "shield-check", label: "Assurance RC professionnelle", detail: "Couverte pour tous nos chantiers" },
   { icon: "phone", label: COMPANY.phone, detail: "Lun-Ven, 8h-18h" },

@@ -37,8 +37,8 @@ export default function HomePage() {
           pas de scrim) pour que les CTA restent au-dessus de la ligne de
           flottaison ; a partir de lg, il repasse en incrustation au bas de
           la photo, seul traitement ou une pleine hauteur d'ecran suffit. */}
-      <section className="relative w-full lg:min-h-[680px]">
-        <div className="relative h-[130px] w-full overflow-hidden sm:h-[300px] lg:absolute lg:inset-0 lg:h-auto">
+      <section className="relative w-full lg:min-h-[510px]">
+        <div className="relative h-[88px] w-full overflow-hidden sm:h-[300px] lg:absolute lg:inset-0 lg:h-auto">
           <Image
             src="/images/placeholder-hero.png"
             alt="Deux cabines sanitaires WC Rent Belgium installées sur un chantier de construction, technicien au travail à l'arrière-plan"
@@ -55,38 +55,38 @@ export default function HomePage() {
             }}
           />
         </div>
-        <div className="relative bg-white py-3 lg:absolute lg:inset-x-0 lg:bottom-0 lg:bg-transparent lg:py-0 lg:pb-10">
-          <Container className="grid gap-2.5 lg:gap-5">
-            <div className="grid gap-1 lg:gap-2 lg:max-w-2xl">
+        <div className="relative bg-white py-2 lg:absolute lg:inset-x-0 lg:bottom-0 lg:bg-transparent lg:py-0 lg:pb-4">
+          <Container className="grid gap-2 lg:gap-2.5">
+            <div className="grid gap-0.5 lg:gap-1.5 lg:max-w-2xl">
               <h1
-                className="m-0 text-[clamp(22px,6vw,52px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-navy-900 text-wrap-balance"
+                className="m-0 text-[clamp(20px,6vw,52px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-navy-900 text-wrap-balance"
               >
                 Des sanitaires pour votre chantier. Simplement.
               </h1>
-              <p className="m-0 text-[14px] leading-[1.3] text-grey-500 lg:text-[18px]">
+              <p className="m-0 text-[13px] leading-[1.3] text-grey-500 lg:text-[18px]">
                 Un prix clair, une livraison rapide, entretien et reprise inclus.
               </p>
             </div>
 
             {/* Carte prix — seule surface blanche pleine du hero, l'ancre
                 visuelle de l'écran. */}
-            <div className="grid max-w-md gap-2 rounded-2xl bg-white p-3 shadow-[0_16px_40px_rgba(8,43,82,0.16)] lg:gap-4 lg:p-6">
+            <div className="grid max-w-md gap-1.5 rounded-2xl bg-white p-2.5 shadow-[0_16px_40px_rgba(8,43,82,0.16)] lg:gap-3 lg:p-5">
               <div>
-                <p className="m-0 text-[12px] font-bold text-grey-500 lg:text-[14px]">Cabine sanitaire standard</p>
+                <p className="m-0 text-[11.5px] font-bold text-grey-500 lg:text-[14px]">Cabine sanitaire standard</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-[clamp(32px,9vw,72px)] font-extrabold leading-none tracking-[-0.02em] text-blue-500">
+                  <span className="text-[clamp(28px,9vw,72px)] font-extrabold leading-none tracking-[-0.02em] text-blue-500">
                     XX €
                   </span>
-                  <span className="text-[14px] font-semibold text-grey-500 lg:text-[18px]">/ {HERO_PRICE_UNIT}</span>
+                  <span className="text-[13px] font-semibold text-grey-500 lg:text-[18px]">/ {HERO_PRICE_UNIT}</span>
                 </div>
-                <p className="m-0 mt-0.5 text-[12.5px] text-grey-700 lg:mt-1 lg:text-[15px]">
+                <p className="m-0 mt-0.5 text-[11.5px] text-grey-700 lg:mt-1 lg:text-[15px]">
                   Livraison, entretien, reprise et TVA inclus.
                 </p>
               </div>
-              <ul className="m-0 grid grid-cols-2 list-none gap-x-3 gap-y-1 p-0 lg:flex lg:flex-col lg:gap-2">
+              <ul className="m-0 grid grid-cols-2 list-none gap-x-3 gap-y-1 p-0 lg:flex lg:flex-col lg:gap-1.5">
                 {heroPriceBenefits.map((b) => (
-                  <li key={b.label} className="flex items-center gap-1.5 text-[12px] font-semibold text-navy-800 lg:gap-2.5 lg:text-[15px]">
-                    <Icon name={b.icon} size={15} className="flex-none text-green-600 lg:hidden" />
+                  <li key={b.label} className="flex items-center gap-1.5 text-[11.5px] font-semibold text-navy-800 lg:gap-2.5 lg:text-[15px]">
+                    <Icon name={b.icon} size={14} className="flex-none text-green-600 lg:hidden" />
                     <Icon name={b.icon} size={18} className="hidden flex-none text-green-600 lg:block" />
                     {b.label}
                   </li>
@@ -94,7 +94,7 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div className="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
+            <div className="grid grid-cols-1 gap-1.5 sm:flex sm:flex-wrap">
               <Button href="/reserver" showArrow={false} block size="sm" className="sm:w-auto lg:!h-14 lg:!min-h-14 lg:!px-6 lg:!text-[16px]">
                 Réserver maintenant
               </Button>
