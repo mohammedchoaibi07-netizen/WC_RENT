@@ -32,13 +32,13 @@ export default function HomePage() {
   return (
     <>
       {/* Hero : le prix est le point focal de l'ecran, avant meme le titre —
-          demande explicite du client, pas le traitement par defaut. Sur
-          mobile, le contenu passe SOUS la photo en flux normal (fond blanc,
-          pas de scrim) pour que les CTA restent au-dessus de la ligne de
-          flottaison ; a partir de lg, il repasse en incrustation au bas de
-          la photo, seul traitement ou une pleine hauteur d'ecran suffit. */}
+          demande explicite du client, pas le traitement par defaut. Le
+          titre s'incruste sur la photo a tous les gabarits (intention de la
+          maquette responsive), mais le prix et les CTA restent en flux
+          normal sur fond blanc juste en dessous, pour garder la main sur
+          leur hauteur et les garder au-dessus de la ligne de flottaison. */}
       <section className="relative w-full lg:min-h-[510px]">
-        <div className="relative h-[88px] w-full overflow-hidden sm:h-[300px] lg:absolute lg:inset-0 lg:h-auto">
+        <div className="relative h-[200px] w-full overflow-hidden sm:h-[320px] lg:absolute lg:inset-0 lg:h-auto">
           <Image
             src="/images/placeholder-hero.png"
             alt="Deux cabines sanitaires WC Rent Belgium installées sur un chantier de construction, technicien au travail à l'arrière-plan"
@@ -48,22 +48,24 @@ export default function HomePage() {
             sizes="100vw"
           />
           <div
-            className="absolute inset-0 hidden lg:block"
+            className="absolute inset-0"
             style={{
               background:
                 "linear-gradient(to top, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.96) 30%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.25) 68%, rgba(255,255,255,0) 80%)",
             }}
           />
         </div>
-        <div className="relative bg-white py-2 lg:absolute lg:inset-x-0 lg:bottom-0 lg:bg-transparent lg:py-0 lg:pb-4">
+        {/* Un seul <h1> (M-14) : le bloc titre remonte sur la photo via une
+            marge negative en dessous de lg, plutot que d'exister en double. */}
+        <div className="relative -mt-[100px] py-2 lg:absolute lg:inset-x-0 lg:bottom-0 lg:mt-0 lg:py-0 lg:pb-4">
           <Container className="grid gap-2 lg:gap-2.5">
-            <div className="grid gap-0.5 lg:gap-1.5 lg:max-w-2xl">
+            <div className="grid gap-1 lg:gap-1.5 lg:max-w-2xl">
               <h1
-                className="m-0 text-[clamp(20px,6vw,52px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-navy-900 text-wrap-balance"
+                className="m-0 text-[clamp(22px,7vw,36px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-navy-900 text-wrap-balance lg:text-[clamp(20px,6vw,52px)]"
               >
                 Des sanitaires pour votre chantier. Simplement.
               </h1>
-              <p className="m-0 text-[13px] leading-[1.3] text-grey-500 lg:text-[18px]">
+              <p className="m-0 text-[13px] leading-[1.25] text-grey-500 lg:text-[18px] lg:leading-[1.4]">
                 Un prix clair, une livraison rapide, entretien et reprise inclus.
               </p>
             </div>
